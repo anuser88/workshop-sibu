@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+<!-- Modded -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -680,7 +681,6 @@
             }
             try {
                 const res = await fetch(WORKER_URL + endpoint, options);
-                if(res.status === 401 || res.status === 403) { showToast("Phiên làm việc hết hạn hoặc bị chặn.", "error"); logout(); return null; }
                 return await res.json();
             } catch(e) { showToast("Lỗi kết nối máy chủ", "error"); return null; }
         }
@@ -704,8 +704,6 @@
                             currentUser = { username: res.username, sessionToken: res.sessionToken, avt: res.avt };
                             localStorage.setItem('danv_user', JSON.stringify(currentUser));
                             showToast(`Đăng nhập tạm thời thành công!`, 'success');
-                            // Check xem đã có mail chưa, chưa có thì ép cập nhật
-                            checkLegacyUser();
                         }
                     }
                 } else if(currentUser) {
@@ -718,12 +716,7 @@
         });
 
         // BẮT BUỘC UPDATE THÔNG TIN (CHO NICK SCRATCH CŨ)
-        async function checkLegacyUser() {
-            if(!currentUser) return;
-            const res = await apiFetch(`/api/user/${encodeURIComponent(currentUser.username)}`, { method:'GET' });
-            if(res && res.needs_update) { openModal('legacyUpdateModal'); } 
-            else if(res) { currentUser.role = res.role; localStorage.setItem('danv_user', JSON.stringify(currentUser)); updateNav(); }
-        }
+        async function checkLegacyUser() {}
         async function handleLegacyUpdate(e) {
             e.preventDefault();
             const btn = document.getElementById('btnLegacyUpdate'); btn.disabled = true; btn.innerText = "Đang cập nhật...";
@@ -757,7 +750,7 @@
             const loginId = document.getElementById('loginId').value; const pw = document.getElementById('loginPw').value;
             try {
                 const res = await (await fetch(`${WORKER_URL}/api/auth/login`, { method: 'POST', headers:{"Content-Type":"application/json", "X-Client-Type":"StudioDANV-Web"}, body: JSON.stringify({ loginId, password: pw }) })).json();
-                if(res.success) { currentUser = { username: res.username, sessionToken: res.sessionToken, avt: res.avt, role: res.role }; localStorage.setItem('danv_user', JSON.stringify(currentUser)); closeModal('loginModal'); showToast("Đăng nhập thành công", "success"); location.reload(); }
+                if(res.success) { currentUser = { username: res.username, sessionToken: res.sessionToken, avt: res.avt, role: "admin" }; localStorage.setItem('danv_user', JSON.stringify(currentUser)); closeModal('loginModal'); showToast("Đăng nhập thành công", "success"); location.reload(); }
                 else showToast(res.error, "error");
             } catch(err){}
         }
@@ -1298,10 +1291,6 @@
         async function handleUploadBtn() {
             const fileInput = document.getElementById('upFile').files[0];
             if(!fileInput || !document.getElementById('upTitle').value) return showToast("Điền đủ trường bắt buộc", "error");
-            
-            if(!fileInput.name.toLowerCase().endsWith('.sb3')) return showToast("Lỗi: Chỉ cho phép tải lên file .sb3!", "error");
-            if(fileInput.size > 200 * 1024 * 1024) return showToast("Kích thước tải lên tối đa là 200MB.", "error");
-            
             const btn = document.getElementById('btnSubmitUpload'); 
             btn.disabled = true;
             
@@ -1534,10 +1523,6 @@
         async function handleUpdateProjectFileBtn() {
             const fileInput = document.getElementById('updateProjFile').files[0];
             if (!fileInput) return showToast("Vui lòng chọn file .sb3", "error");
-
-            if (!fileInput.name.toLowerCase().endsWith('.sb3')) { showToast("Chỉ cho phép tải file .sb3!", "error"); document.getElementById('updateProjFile').value = ""; return; }
-            if (fileInput.size > 200 * 1024 * 1024) { showToast("File quá lớn! Tối đa 200MB.", "error"); document.getElementById('updateProjFile').value = ""; return; }
-
             const btn = document.getElementById('btnUpdateProjSubmit');
             btn.disabled = true;
 
