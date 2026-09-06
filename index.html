@@ -891,7 +891,7 @@
             const fileUrl = `${WORKER_URL}/api/project/${proj.fileId}`; 
             document.getElementById('playerContainer').innerHTML = `<iframe src="https://turbowarp.org/embed.html?project_url=${encodeURIComponent(fileUrl)}" allowtransparency="true" frameborder="0" scrolling="no" allowfullscreen class="player-iframe"></iframe>`;
             const engineChoice = localStorage.getItem('engine') || 'aftercode';
-            const editorBaseUrl = engineChoice === 'turbowarp' ? 'https://turbowarp.org/editor?project_url=' : 'https://aftercode-web-wheat.vercel.app/?project_url=';
+            const editorBaseUrl = engineChoice === 'turbowarp' ? 'https://turbowarp.org/editor?project_url=' : 'https://aftercode-web-wheat.vercel.app/editor.html?project_url=';
             document.getElementById('btnSeeInside').href = `${editorBaseUrl}${encodeURIComponent(fileUrl)}`;
             document.getElementById('projDesc').innerText = proj.description || "Chưa có hướng dẫn."; document.getElementById('projCredits').innerText = proj.credits || "Tác giả gốc.";
             
@@ -1888,10 +1888,15 @@
 
         function reopenEditor() {
             const engine = localStorage.getItem('engine') || 'aftercode';
-            const emptyProjUrl = encodeURIComponent('https://app.studiodanv.workers.dev/api/project/BQACAgUAAyEGAAMBAm7g1wADWWqaA9XCFAa2PZvJLk9gR6LFYg7aAAL4HwAC1VPQVNAurUwM2LD8PQQ');
+            
+            // Link project gốc cho TurboWarp
+            const twProjUrl = encodeURIComponent('https://app.studiodanv.workers.dev/api/project/BQACAgUAAyEGAAMBAm7g1wADWWqaA9XCFAa2PZvJLk9gR6LFYg7aAAL4HwAC1VPQVNAurUwM2LD8PQQ');
+            // Link project mới riêng cho Aftercode
+            const acProjUrl = encodeURIComponent('https://app.studiodanv.workers.dev/api/project/BQACAgUAAyEGAAMBAm7g1wACAQxqnLXk9hGXa3seT3AsRBStUrB4SgACmSEAAo4d4VQM1kADtVQ2xz0E');
+            
             const editorUrl = engine === 'turbowarp' 
-                ? `https://turbowarp.org/editor?project_url=${emptyProjUrl}`
-                : `https://aftercode-web-wheat.vercel.app/?project_url=${emptyProjUrl}`;
+                ? `https://turbowarp.org/editor?project_url=${twProjUrl}`
+                : `https://aftercode-web-wheat.vercel.app/editor.html?project_url=${acProjUrl}`;
             
             document.getElementById('createEngineName').innerText = engine === 'turbowarp' ? 'TurboWarp' : 'Aftercode';
             window.open(editorUrl, '_blank');
