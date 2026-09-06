@@ -212,6 +212,15 @@
         <div class="nav-actions" id="navActions"></div>
     </nav>
 
+    <!-- TRANG SÁNG TẠO -->
+    <div id="createView" class="page-view" style="text-align:center; padding: 120px 20px;">
+        <i class="fa-solid fa-wand-magic-sparkles fa-bounce" style="font-size: 5rem; color: var(--primary); margin-bottom: 25px;"></i>
+        <h2 style="color: #111; margin-bottom: 12px; font-size: 2rem;">Đã mở Trình chỉnh sửa!</h2>
+        <p style="color: #666; margin-bottom: 30px; font-size: 1.1rem;">Chúng tôi đã mở <b id="createEngineName" style="color:var(--primary);">Aftercode</b> trong một tab mới để bạn thỏa sức sáng tạo.</p>
+        <button class="btn btn-primary" onclick="reopenEditor()" style="padding: 12px 30px; font-size: 1.05rem; border-radius: 25px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Mở lại tab</button>
+        <button class="btn" onclick="location.hash='#home'" style="margin-left: 15px; padding: 12px 30px; font-size: 1.05rem; border-radius: 25px;"><i class="fa-solid fa-house"></i> Về Trang chủ</button>
+    </div>
+
     <!-- TRANG 1: KHÁM PHÁ -->
     <div id="homeView" class="page-view">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -455,6 +464,19 @@
                     </div>
 
                     <h4 style="margin-bottom:15px; margin-top:30px;">Tùy chọn</h4>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Engine Lập trình (Mặc định: Aftercode):</label>
+                        <div style="display: flex; gap: 10px; margin-top: 8px;">
+                            <button type="button" id="btnEngineAftercode" onclick="changeEngine('aftercode')" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:15px; border:2px solid var(--primary); border-radius:12px; background:#f0fdf4; cursor:pointer; transition:0.2s;">
+                                <img src="https://i.ibb.co/7dLkRJKZ/ezgif-1f45d90f66f6c39a.png" width="38" style="border-radius:8px;">
+                                <span style="font-weight:bold; font-size:0.9rem; color:#111;">Aftercode</span>
+                            </button>
+                            <button type="button" id="btnEngineTurbowarp" onclick="changeEngine('turbowarp')" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:15px; border:2px solid #cbd5e1; border-radius:12px; background:#fff; cursor:pointer; transition:0.2s;">
+                                <img src="https://i.ibb.co/b5s3qVDx/ezgif-1f45d90f66f6c39a.png" width="38" style="border-radius:8px;">
+                                <span style="font-weight:bold; font-size:0.9rem; color:#111;">TurboWarp</span>
+                            </button>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label>Ngôn ngữ (Language):</label>
                         <select id="langSelect" class="form-control" onchange="changeLanguage(this.value)">
@@ -815,7 +837,7 @@
             else if (hash === '#upload') openUploadPage();
             else if (hash === '#settings') openSettingsPage();
             else if (hash === '#notifications') openNotificationsPage();
-            else if (hash === '#create') window.open('https://turbowarp.org/editor?project_url=https://app.studiodanv.workers.dev/api/project/BQACAgUAAyEGAAMBAm7g1wADWWqaA9XCFAa2PZvJLk9gR6LFYg7aAAL4HwAC1VPQVNAurUwM2LD8PQQ', '_blank'); 
+            else if (hash === '#create') openCreatePage();
             else openHomePage();
         }
 
@@ -868,7 +890,9 @@
             
             const fileUrl = `${WORKER_URL}/api/project/${proj.fileId}`; 
             document.getElementById('playerContainer').innerHTML = `<iframe src="https://turbowarp.org/embed.html?project_url=${encodeURIComponent(fileUrl)}" allowtransparency="true" frameborder="0" scrolling="no" allowfullscreen class="player-iframe"></iframe>`;
-            document.getElementById('btnSeeInside').href = `https://turbowarp.org/editor?project_url=${encodeURIComponent(fileUrl)}`;
+            const engineChoice = localStorage.getItem('engine') || 'aftercode';
+            const editorBaseUrl = engineChoice === 'turbowarp' ? 'https://turbowarp.org/editor?project_url=' : 'https://aftercode-web-wheat.vercel.app/?project_url=';
+            document.getElementById('btnSeeInside').href = `${editorBaseUrl}${encodeURIComponent(fileUrl)}`;
             document.getElementById('projDesc').innerText = proj.description || "Chưa có hướng dẫn."; document.getElementById('projCredits').innerText = proj.credits || "Tác giả gốc.";
             
             updateActionBtns(); renderCommentList('proj', currentProj.comments || []); removeCommentImage('proj'); cancelReply('proj');
@@ -1827,6 +1851,52 @@
             }
             btn.innerHTML = '<i class="fa-solid fa-rocket"></i> Tải bản cập nhật lên'; btn.disabled = false;
         }
+
+        // ================= TÍNH NĂNG CHỌN ENGINE LẬP TRÌNH =================
+        function changeEngine(engine) {
+            localStorage.setItem('engine', engine);
+            updateEngineUI(engine);
+            showToast(`Đã chuyển Engine sang ${engine === 'aftercode' ? 'Aftercode' : 'TurboWarp'}`, "success");
+        }
+
+        function updateEngineUI(engine) {
+            const btnA = document.getElementById('btnEngineAftercode');
+            const btnT = document.getElementById('btnEngineTurbowarp');
+            if(btnA && btnT) {
+                if(engine === 'turbowarp') {
+                    btnT.style.borderColor = 'var(--primary)'; btnT.style.background = '#f0fdf4';
+                    btnA.style.borderColor = '#cbd5e1'; btnA.style.background = '#fff';
+                } else {
+                    btnA.style.borderColor = 'var(--primary)'; btnA.style.background = '#f0fdf4';
+                    btnT.style.borderColor = '#cbd5e1'; btnT.style.background = '#fff';
+                }
+            }
+        }
+
+        // Tích hợp load giao diện Engine vào hàm mở trang cài đặt
+        const originalOpenSettings = openSettingsPage;
+        openSettingsPage = async function() {
+            await originalOpenSettings();
+            updateEngineUI(localStorage.getItem('engine') || 'aftercode');
+        };
+
+        // Hàm mở trang Sáng tạo và Tự động mở Tab Editor
+        function openCreatePage() {
+            document.getElementById('createView').style.display = 'block';
+            reopenEditor();
+        }
+
+        function reopenEditor() {
+            const engine = localStorage.getItem('engine') || 'aftercode';
+            const emptyProjUrl = encodeURIComponent('https://app.studiodanv.workers.dev/api/project/BQACAgUAAyEGAAMBAm7g1wADWWqaA9XCFAa2PZvJLk9gR6LFYg7aAAL4HwAC1VPQVNAurUwM2LD8PQQ');
+            const editorUrl = engine === 'turbowarp' 
+                ? `https://turbowarp.org/editor?project_url=${emptyProjUrl}`
+                : `https://aftercode-web-wheat.vercel.app/?project_url=${emptyProjUrl}`;
+            
+            document.getElementById('createEngineName').innerText = engine === 'turbowarp' ? 'TurboWarp' : 'Aftercode';
+            window.open(editorUrl, '_blank');
+        }
+        
     </script>
 </body>
 </html>
