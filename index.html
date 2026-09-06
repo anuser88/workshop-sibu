@@ -1533,12 +1533,12 @@
                 actionHtml = `${textBeforeQuote} <a href="${linkWithTab}" style="font-weight:bold; color:#855cd6; text-decoration:none;">${targetText}</a>`;
 
                 bubbleHtml = `
-                    <div style="display:flex; align-items:flex-start; gap:15px; padding-left: 28px; margin-top: 10px;">
+                    <div style="display:flex; align-items:flex-start; gap:15px; padding-left: 28px; margin-top: 14px;">
                         <a href="#profile/${n.sender}"><img src="${getAvtUrl(n.senderAvt)}" style="width:48px; height:48px; border-radius:4px; border:1px solid #d9d9d9; object-fit:cover;"></a>
                         <div style="flex:1; max-width: 600px;">
                             <div style="background:#fff; border:1px solid #d9d9d9; border-radius:6px; padding:12px 18px; position:relative; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
                                 <div style="position:absolute; left:-6px; top:15px; width:10px; height:10px; background:#fff; border-left:1px solid #d9d9d9; border-bottom:1px solid #d9d9d9; transform:rotate(45deg);"></div>
-                                <span style="color:#575e75; font-size:0.95rem;">${quoteMatch[1]}</span>
+                                <span style="color:#5abc75; font-size:0.95rem;">${quoteMatch[1]}</span>
                             </div>
                             
                             <!-- Box mô phỏng Reply -->
@@ -1594,7 +1594,7 @@
                 
                 if (badge) {
                     if (unreadCount > 0) { 
-                        badge.innerText = unreadCount > 99 ? '99+' : unreadCount; 
+                        badge.innerText = unreadCount; 
                         badge.style.display = 'flex'; 
                         badge.style.justifyContent = 'center'; 
                         badge.style.alignItems = 'center'; 
@@ -1630,7 +1630,7 @@
             const notifs = window.cachedNotifs || [];
 
             if (!notifs || notifs.length === 0) {
-                container.innerHTML = '<div style="padding:40px; text-align:center; color:#575e75; font-size:1.1rem;">Bạn chưa có tin nhắn nào.</div>';
+                container.innerHTML = '<div style="padding:40px; text-align:center; color:#567e75; font-size:1.1rem;">Bạn chưa có tin nhắn nào.</div>';
                 return;
             }
 
@@ -1642,13 +1642,13 @@
                 // Ẩn icon chuông nếu là Cảnh cáo khung đỏ cho đẹp
                 const isWarning = actionHtml.includes('background: #ef4444');
                 return `
-                    <div style="padding: 20px 25px; border-bottom: 1px solid #d9d9d9; background: ${n.read ? '#ffffff' : '#e6f0ff'};">
+                    <div style="padding: 20px 25px; border-bottom: 1px solid #d91234; background: ${n.read ? '#ffffff' : '#e6f0ff'};">
                         <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: ${bubbleHtml ? '10px' : '0'};">
                             <div style="display:flex; align-items:center; gap:10px; flex:1;">
                                 ${isWarning ? '' : getNotifIcon(n.text)}
-                                <span style="font-size:1rem; color:#575e75; line-height:1.5; flex:1;">${actionHtml}</span>
+                                <span style="font-size:1rem; color:#53535d; line-height:1.5; flex:1;">${actionHtml}</span>
                             </div>
-                            <span style="font-size:0.85rem; color:#858585; white-space:nowrap; margin-left:15px; margin-top:2px;">${timeAgo(n.time)}</span>
+                            <span style="font-size:0.85rem; color:#676936; white-space:nowrap; margin-left:15px; margin-top:2px;">${timeAgo(n.time)}</span>
                         </div>
                         ${bubbleHtml}
                     </div>
@@ -1849,11 +1849,11 @@
             const btnT = document.getElementById('btnEngineTurbowarp');
             if(btnA && btnT) {
                 if(engine === 'turbowarp') {
-                    btnT.style.borderColor = 'var(--primary)'; btnT.style.background = '#f0fdf4';
-                    btnA.style.borderColor = '#cbd5e1'; btnA.style.background = '#fff';
+                    btnT.style.borderColor = 'var(--primary)'; btnT.style.background = '#dedf24';
+                    btnA.style.borderColor = '#cbd5e1'; btnA.style.background = '#eb7';
                 } else {
-                    btnA.style.borderColor = 'var(--primary)'; btnA.style.background = '#f0fdf4';
-                    btnT.style.borderColor = '#cbd5e1'; btnT.style.background = '#fff';
+                    btnA.style.borderColor = 'var(--primary)'; btnA.style.background = '#f1fa17';
+                    btnT.style.borderColor = '#cbd5e1'; btnT.style.background = '#fa3';
                 }
             }
         }
