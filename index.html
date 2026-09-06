@@ -1312,8 +1312,8 @@
                     importLoader.innerHTML = `
                         <div style="position:fixed; inset:0; background:rgba(255,255,255,0.95); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
                             <i class="fa-solid fa-cloud-arrow-down fa-bounce" style="font-size:4rem; color:var(--primary); margin-bottom:20px;"></i>
-                            <h2 style="color:#111; margin-bottom:10px;">Đang nhận dữ liệu từ TurboWarp...</h2>
-                            <p style="color:#666; font-size:1rem; margin-bottom:20px; max-width:400px;">Quá trình nén file lớn bên TurboWarp có thể mất từ 10 - 20 giây. Vui lòng giữ nguyên trang này.</p>
+                            <h2 style="color:#111; margin-bottom:10px;">Đang nhận dữ liệu từ trình chỉnh sửa...</h2>
+                            <p style="color:#666; font-size:1rem; margin-bottom:20px; max-width:400px;">Quá trình nén file lớn từ Turbowarp hoặc Aftercode có thể mất từ 10 - 20 giây. Vui lòng giữ nguyên trang này.</p>
                             <button class="btn btn-danger" onclick="document.getElementById('danv-import-loader').remove();">Bỏ qua / Tự tải lên thủ công</button>
                         </div>
                     `;
@@ -1386,7 +1386,7 @@
                     }
                 }
 
-                showToast("Đã tự động nạp dự án & ảnh bìa từ TurboWarp!", "success");
+                showToast("Đã nạp chương trình và ảnh bìa.", "success");
             }
         });
 
