@@ -751,10 +751,12 @@
                             showToast(`Đăng nhập tạm thời thành công!`, 'success');
                         }
                     }
-                } else if(currentUser)
+                } else if(currentUser) {
                     checkLegacyUser();
-                if (currentUser.savedPw)
+                }
+                if (currentUser.savedPw) {
                     await reLogin(currentUser.username, currentUser.savedPw);
+                }
 
                 await loadProjects(); updateNav(); handleRouting();
                 setInterval(autoFetchData, 35000);
