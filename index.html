@@ -191,7 +191,7 @@
         .btn-close { background: none; border: none; color: #845; font-size: 1.5rem; cursor: pointer; }
         .modal-body { padding: 22px; }
 
-        #globalLoader { position: fixed; inset: 0; background: #46f; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+        #globalLoader { position: fixed; inset: 0; background: #46f; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 1; transition: opacity 0.5s ease; }
     </style>
 </head>
 <body style="background-color: #fa4670">
@@ -751,16 +751,17 @@
                             showToast(`Đăng nhập tạm thời thành công!`, 'success');
                         }
                     }
-                } else if(currentUser) {
+                } else if(currentUser)
                     checkLegacyUser();
-                }
+                if (currentUser.savedPw)
+                    await reLogin(currentUser.username, currentUser.savedPw);
 
                 await loadProjects(); updateNav(); handleRouting();
                 setInterval(autoFetchData, 35000);
-            } catch (e) {} finally { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 300); }
+            } catch (e) {} finally { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
         });
 
-        // BẮT BUỘC UPDATE THÔNG TIN (CHO NICK SCRATCH CŨ)
+        // KO BẮT BUỘC UPDATE THÔNG TIN (CHO NICK SCRATCH CŨ)
         async function checkLegacyUser() {}
         async function handleLegacyUpdate(e) {
             e.preventDefault();
@@ -773,7 +774,7 @@
 
         // ================= AUTHENTICATION (NATIVE) =================
         async function handleRegisterRequest(e) {
-            e.preventDefault(); const btn = document.getElementById('btnReqReg'); btn.disabled = true; btn.innerText = "Đang gửi OTP...";
+            e.preventDefault(); const btn = document.getElementById('btnReqReg'); btn.disabled = true; btn.innerText = "Đang gửi mã xác nhận...";
             const username = document.getElementById('regUsername').value; const email = document.getElementById('regEmail').value; const displayName = document.getElementById('regDisplayName').value;
             try {
                 const res = await (await fetch(`${WORKER_URL}/api/auth/register_req`, { method: 'POST', headers:{"Content-Type":"application/json", "X-Client-Type":"StudioDANV-Web"}, body: JSON.stringify({ username, email, displayName }) })).json();
@@ -795,8 +796,15 @@
             const loginId = document.getElementById('loginId').value; const pw = document.getElementById('loginPw').value;
             try {
                 const res = await (await fetch(`${WORKER_URL}/api/auth/login`, { method: 'POST', headers:{"Content-Type":"application/json", "X-Client-Type":"StudioDANV-Web"}, body: JSON.stringify({ loginId, password: pw }) })).json();
-                if(res.success) { currentUser = { username: res.username, sessionToken: res.sessionToken, avt: res.avt, role: "admin" }; localStorage.setItem('danv_user', JSON.stringify(currentUser)); closeModal('loginModal'); showToast("Đăng nhập thành công", "success"); location.reload(); }
+                if(res.success) { currentUser = { username: res.username, savedPw: pw, sessionToken: res.sessionToken, avt: res.avt, role: "admin" }; localStorage.setItem('danv_user', JSON.stringify(currentUser)); closeModal('loginModal'); showToast("Đăng nhập thành công", "success"); location.reload(); }
                 else showToast(res.error, "error");
+            } catch(err){}
+        }
+        async function reLogin(username, pw) {
+            try {
+                const res = await (await fetch(`${WORKER_URL}/api/auth/login`, { method: 'POST', headers:{"Content-Type":"application/json", "X-Client-Type":"StudioDANV-Web"}, body: JSON.stringify({ loginId: username, password: pw }) })).json();
+                if(res.success) { currentUser = { username: res.username, savedPw: pw, sessionToken: res.sessionToken, avt: res.avt, role: "admin" }; localStorage.setItem('danv_user', JSON.stringify(currentUser)); }
+                else { showToast(res.error, "error");logout(); }
             } catch(err){}
         }
         function loginScratch() { const state = Math.random().toString(36).substring(2); localStorage.setItem('oauth_state', state); window.location.href = `https://oauth2.scratch-wiki.info/wiki/Special:ScratchOAuth2/authorize?client_id=${WIKI_CLIENT_ID}&redirect_uri=${encodeURIComponent(window.location.origin + window.location.pathname)}&scopes=identify&state=${state}`; }
