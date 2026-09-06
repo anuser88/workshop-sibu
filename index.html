@@ -216,8 +216,8 @@
     <!-- TRANG SÁNG TẠO -->
     <div id="createView" class="page-view" style="text-align:center; padding: 120px 20px;">
         <i class="fa-solid fa-wand-magic-sparkles fa-bounce" style="font-size: 5rem; color: var(--primary); margin-bottom: 25px;"></i>
-        <h2 style="color: #111; margin-bottom: 12px; font-size: 2rem;">Đã mở Trình chỉnh sửa!</h2>
-        <p style="color: #666; margin-bottom: 30px; font-size: 1.1rem;">Chúng tôi đã mở <b id="createEngineName" style="color:var(--primary);">Aftercode</b> trong một tab mới để bạn thỏa sức sáng tạo.</p>
+        <h2 style="color: #1341df; margin-bottom: 12px; font-size: 2rem;">Đã mở Trình chỉnh sửa!</h2>
+        <p style="color: #366; margin-bottom: 30px; font-size: 1.1rem;">Chúng tôi đã mở <b id="createEngineName" style="color:var(--primary);">Aftercode</b> trong một tab mới để bạn thỏa sức sáng tạo.</p>
         <button class="btn btn-primary" onclick="reopenEditor()" style="padding: 12px 30px; font-size: 1.05rem; border-radius: 25px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Mở lại tab</button>
         <button class="btn" onclick="location.hash='#home'" style="margin-left: 15px; padding: 12px 30px; font-size: 1.05rem; border-radius: 25px;"><i class="fa-solid fa-house"></i> Về Trang chủ</button>
     </div>
@@ -237,7 +237,7 @@
                 <div class="player-container" id="playerContainer"></div>
                 <div class="action-bar">
                     <div>
-                        <h2 id="projPageTitle" style="color: #111; margin-bottom: 4px;">Tên dự án</h2>
+                        <h2 id="projPageTitle" style="color: #17f; margin-bottom: 4px;">Tên dự án</h2>
                         <div style="color: var(--text-muted); font-size: 0.9rem;">
                             Bởi <a id="projPageAuthor" href="#" style="color: var(--primary); text-decoration: none; font-weight:bold; margin-right: 15px;">Author</a>
                             <i class="fa-regular fa-clock"></i> <span id="projPageDate">Đang cập nhật...</span>
@@ -248,7 +248,7 @@
                         <button class="act-btn" id="btnStar" onclick="toggleAction('star')"><i class="fa-solid fa-star"></i> <span id="starCount">0</span></button>
                         <a id="btnSeeInside" href="#" target="_blank" class="btn"><i class="fa-solid fa-code"></i> Mã nguồn</a>
                         <button class="btn btn-danger" onclick="openReportModal('project')"><i class="fa-solid fa-flag"></i></button>
-                        <button class="btn" id="btnProjSettings" style="display:none; background:#333; color:#fff;" onclick="openModal('projSettingsModal')"><i class="fa-solid fa-gear"></i></button>
+                        <button class="btn" id="btnProjSettings" style="display:none; background:#558; color:#fdf;" onclick="openModal('projSettingsModal')"><i class="fa-solid fa-gear"></i></button>
                         <button class="btn btn-danger" id="btnAdminForcePrivate" style="display:none;" onclick="openAdminPrivateModal()"><i class="fa-solid fa-shield-halved"></i> Gỡ</button>
                     </div>
                 </div>
@@ -280,7 +280,7 @@
                         </div>
                         <div id="commentImgPreviewProj" class="comment-img-preview-box">
                             <img id="commentImgPreviewSrcProj" src="" alt="preview">
-                            <span style="font-size:0.8rem; color:#555;">Đã đính kèm ảnh</span>
+                            <span style="font-size:0.8rem; color:#697;">Đã đính kèm ảnh</span>
                             <button type="button" class="btn-remove-preview" onclick="removeCommentImage('proj')" title="Gỡ ảnh">&times;</button>
                         </div>
                         <form onsubmit="handlePostComment(event, 'proj')" id="commentFormProj" style="display:none;">
@@ -295,7 +295,7 @@
                                 </button>
                             </div>
                         </form>
-                        <div id="loginPromptProj" style="text-align:center; color:#888; font-size:0.9rem;">
+                        <div id="loginPromptProj" style="text-align:center; color:#456789; font-size:0.9rem;">
                             <button class="btn btn-primary" onclick="openModal('loginModal')">Đăng nhập để bình luận</button>
                         </div>
                     </div>
@@ -307,8 +307,8 @@
     <!-- TRANG 3: PROFILE -->
     <div id="profileView" class="page-view">
         <div id="profile404" style="display:none; text-align:center; padding:100px 20px;">
-            <i class="fa-solid fa-user-slash" style="font-size:5rem; color:#ccc; margin-bottom:20px;"></i>
-            <h2 style="color:#555; margin-bottom:10px;">404 - Không tìm thấy người dùng</h2>
+            <i class="fa-solid fa-user-slash" style="font-size:5rem; color:#cfc; margin-bottom:20px;"></i>
+            <h2 style="color:#fd5; margin-bottom:10px;">404 - Không tìm thấy người dùng</h2>
             <button class="btn btn-primary" onclick="location.hash='#home'"><i class="fa-solid fa-house"></i> Về Trang chủ</button>
         </div>
 
@@ -316,9 +316,9 @@
             <div id="profileBannerArea" style="display:none;" class="profile-featured-banner">
                 <div class="banner-thumb-area"><img id="profBannerThumb" src="" onerror="this.src='https://i.ibb.co/QFg1cVVD/image.png'"></div>
                 <div class="banner-info-area">
-                    <span style="background:rgba(255,255,255,0.2); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.75rem; font-weight:bold; width:max-content; margin-bottom:10px;">TÁC PHẨM NỔI BẬT</span>
+                    <span style="background:rgba(255,255,255,0.2); color:#f1679f; padding:4px 10px; border-radius:4px; font-size:0.75rem; font-weight:bold; width:max-content; margin-bottom:10px;">TÁC PHẨM NỔI BẬT</span>
                     <h2 id="profBannerTitle" style="font-size:1.8rem; margin-bottom:8px; color: #fff;">Tên dự án nổi bật</h2>
-                    <p id="profBannerDesc" style="color:#cbd5e1; font-size:0.95rem; margin-bottom:15px; line-height:1.5;"></p>
+                    <p id="profBannerDesc" style="color:#b1a888; font-size:0.95rem; margin-bottom:15px; line-height:1.5;"></p>
                     <a id="btnPlayBannerProj" href="#" class="btn btn-primary" style="width:max-content; padding:10px 25px;"><i class="fa-solid fa-play"></i> Trải nghiệm</a>
                 </div>
             </div>
@@ -373,11 +373,11 @@
             <div id="profTab-comments" class="prof-tab-content" style="max-width:750px;">
                 <div style="background:var(--bg-panel); border:1px solid var(--border-color); border-radius:12px; padding:20px; margin-bottom:25px; box-shadow:0 2px 10px rgba(0,0,0,0.02);">
                     <div id="replyBannerProf" style="display:none; color:var(--primary); font-size:0.85rem; margin-bottom:10px; font-weight:bold;">
-                        Đang trả lời <span id="replyUserLabelProf"></span> <i class="fa-solid fa-xmark" style="cursor:pointer; color:#888; float:right;" onclick="cancelReply('prof')"></i>
+                        Đang trả lời <span id="replyUserLabelProf"></span> <i class="fa-solid fa-xmark" style="cursor:pointer; color:#7f3; float:right;" onclick="cancelReply('prof')"></i>
                     </div>
                     <div id="commentImgPreviewProf" class="comment-img-preview-box">
                         <img id="commentImgPreviewSrcProf" src="" alt="preview">
-                        <span style="font-size:0.8rem; color:#555;">Đã đính kèm ảnh</span>
+                        <span style="font-size:0.8rem; color:#343478;">Đã đính kèm ảnh</span>
                         <button type="button" class="btn-remove-preview" onclick="removeCommentImage('prof')" title="Gỡ ảnh">&times;</button>
                     </div>
                     <form onsubmit="handlePostComment(event, 'prof')" id="profCommentForm" style="display:none;">
@@ -388,7 +388,7 @@
                             <button type="submit" class="btn btn-primary" id="btnSubmitCommentProf"><i class="fa-solid fa-paper-plane"></i> Gửi bình luận</button>
                         </div>
                     </form>
-                    <div id="loginPromptProf" style="text-align:center; color:#888; font-size:0.9rem;">
+                    <div id="loginPromptProf" style="text-align:center; color:#111; font-size:0.9rem;">
                         <button class="btn btn-primary" onclick="openModal('loginModal')">Đăng nhập để bình luận</button>
                     </div>
                 </div>
@@ -400,17 +400,17 @@
     <!-- TRANG 4: UPLOAD -->
     <div id="uploadView" class="page-view" style="max-width: 900px;">
         <div class="upload-card-wrapper">
-            <h2 style="color:#111; border-bottom:1px solid #eee; padding-bottom:15px;"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--primary);"></i> Xuất bản tác phẩm mới</h2>
+            <h2 style="color:#acb; border-bottom:1px solid #2ed; padding-bottom:15px;"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--primary);"></i> Xuất bản tác phẩm mới</h2>
             <form id="uploadFormDOM">
                 <div class="upload-grid">
                     <div>
-                        <label style="font-weight:bold; color:#444; display:block; margin-bottom:8px;">Ảnh bìa dự án (Thumbnail)</label>
+                        <label style="font-weight:bold; color:#429; display:block; margin-bottom:8px;">Ảnh bìa dự án (Thumbnail)</label>
                         <label for="upThumb" class="thumb-dropzone">
                             <img id="thumbPreviewBig" class="thumb-preview-img" alt="Thumbnail Preview">
                             <div class="thumb-placeholder" id="thumbPlaceholder">
                                 <i class="fa-solid fa-image" style="font-size:3.5rem; color:#cbd5e1; margin-bottom:10px;"></i>
-                                <div style="font-weight:bold; color:#475569;">Bấm để chọn hoặc kéo ảnh vào đây</div>
-                                <div style="font-size:0.8rem; color:#94a3b8; margin-top:4px;">Hỗ trợ JPG, PNG (Tỉ lệ 16:9)</div>
+                                <div style="font-weight:bold; color:#4267bc;">Bấm để chọn hoặc kéo ảnh vào đây</div>
+                                <div style="font-size:0.8rem; color:#9414d8; margin-top:4px;">Hỗ trợ JPG, PNG (Tỉ lệ 16:9)</div>
                             </div>
                         </label>
                         <input type="file" id="upThumb" accept="image/*" style="display:none;" onchange="handleThumbnailPreviewBig(this)">
@@ -439,7 +439,7 @@
     <!-- TRANG 5: CÀI ĐẶT TÀI KHOẢN (SETTINGS) -->
     <div id="settingsView" class="page-view" style="max-width: 800px;">
         <div class="upload-card-wrapper">
-            <h2 style="color:#111; border-bottom:1px solid #eee; padding-bottom:15px; margin-bottom:20px;"><i class="fa-solid fa-gear" style="color:var(--primary);"></i> Cài đặt tài khoản</h2>
+            <h2 style="color:#fff; border-bottom:1px solid #e67; padding-bottom:15px; margin-bottom:20px;"><i class="fa-solid fa-gear" style="color:var(--primary);"></i> Cài đặt tài khoản</h2>
             
             <div style="display:flex; gap:30px; align-items:flex-start;">
                 <!-- Form Đổi Thông tin -->
@@ -457,10 +457,10 @@
                 </div>
 
                 <!-- Các Liên Kết & Cài Đặt Khác -->
-                <div style="width:300px; background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #eef2f6;">
+                <div style="width:300px; background:#666; padding:20px; border-radius:12px; border:1px solid #eef2f6;">
                     <h4 style="margin-bottom:15px;">Xác thực & Liên kết</h4>
                     <div id="scratchLinkStatus" style="margin-bottom:15px;">
-                        <div style="font-size:0.85rem; color:#666; margin-bottom:6px;">Tài khoản Scratch:</div>
+                        <div style="font-size:0.85rem; color:#236; margin-bottom:6px;">Tài khoản Scratch:</div>
                         <!-- Sẽ render bằng JS -->
                     </div>
 
@@ -499,13 +499,13 @@
 
     <!-- TRANG 6: THÔNG BÁO (TIN NHẮN) GIỐNG SCRATCH -->
     <div id="notificationsView" class="page-view" style="max-width: 950px; padding: 0 20px 40px 20px;">
-        <div style="background: #855cd6; padding: 35px 40px; border-radius: 12px 12px 0 0; color: #fff; display: flex; justify-content: space-between; align-items: center;">
+        <div style="background: #8864aa; padding: 35px 40px; border-radius: 12px 12px 0 0; color: #0ff; display: flex; justify-content: space-between; align-items: center;">
             <h1 style="margin: 0; font-size: 2.2rem; font-weight: bold;">Tin nhắn</h1>
-            <button class="btn" style="background: rgba(255,255,255,0.2); color: #fff; border: none; font-weight: bold;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'" onclick="markAllNotifsRead(event)">
+            <button class="btn" style="background: rgba(255,255,255,0.2); color: #f0f; border: none; font-weight: bold;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'" onclick="markAllNotifsRead(event)">
                 <i class="fa-solid fa-check-double"></i> Đánh dấu đã đọc tất cả
             </button>
         </div>
-        <div style="background: #f6f7f8; border: 1px solid #d9d9d9; border-top: none; border-radius: 0 0 12px 12px; min-height: 400px;">
+        <div style="background: #f6dd22; border: 1px solid #d9b693; border-top: none; border-radius: 0 0 12px 12px; min-height: 400px;">
             <div id="notifPageList">
                 <!-- Nội dung tin nhắn sẽ arender ở đây -->
             </div>
@@ -523,7 +523,7 @@
                     <div class="form-group"><label>Tài khoản / Email:</label><input type="text" id="loginId" class="form-control" required></div>
                     <div class="form-group"><label>Mật khẩu:</label><input type="password" id="loginPw" class="form-control" required></div>
                     <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-bottom:15px;">Đăng nhập</button>
-                    <div style="text-align:center; font-size:0.9rem; color:#666;">
+                    <div style="text-align:center; font-size:0.9rem; color:#234987;">
                         Chưa có tài khoản? <a href="javascript:void(0)" onclick="closeModal('loginModal'); openModal('registerModal')" style="color:var(--primary); font-weight:bold;">Đăng ký ngay</a>
                     </div>
                 </form>
@@ -550,7 +550,7 @@
         <div class="modal" style="max-width:400px;">
             <div class="modal-header"><span>Xác nhận Email</span><button class="btn-close" onclick="closeModal('otpModal')">&times;</button></div>
             <div class="modal-body" style="text-align:center;">
-                <p style="margin-bottom:15px; color:#555;">Vui lòng nhập mã 6 số vừa được gửi tới Email của bạn.</p>
+                <p style="margin-bottom:15px; color:#365;">Vui lòng nhập mã 6 số vừa được gửi tới Email của bạn.</p>
                 <div class="form-group"><input type="text" id="regOtpCode" class="form-control" placeholder="------" style="text-align:center; font-size:1.5rem; letter-spacing:5px;" required maxlength="6"></div>
                 <button type="button" onclick="handleRegisterConfirm()" class="btn btn-primary" style="width:100%; justify-content:center;">Hoàn tất Đăng ký</button>
             </div>
@@ -562,8 +562,8 @@
         <div class="modal" style="max-width:450px;">
             <div class="modal-header"><span>Cập nhật Thông tin Bảo mật</span></div>
             <div class="modal-body">
-                <p style="color:#ef4444; font-weight:bold; margin-bottom:15px;"><i class="fa-solid fa-triangle-exclamation"></i> StudioDANV đã nâng cấp hệ thống độc lập!</p>
-                <p style="font-size:0.9rem; color:#555; margin-bottom:20px;">Vì bạn đăng nhập bằng hệ thống Scratch cũ, vui lòng bổ sung Email và thiết lập Mật khẩu. Tỉnh thành sẽ được hệ thống xác định tự động!</p>
+                <p style="color:#ef4744; font-weight:bold; margin-bottom:15px;"><i class="fa-solid fa-triangle-exclamation"></i> StudioDANV đã nâng cấp hệ thống độc lập!</p>
+                <p style="font-size:0.9rem; color:#677; margin-bottom:20px;">Vì bạn đăng nhập bằng hệ thống Scratch cũ, vui lòng bổ sung Email và thiết lập Mật khẩu. Tỉnh thành sẽ được hệ thống xác định tự động!</p>
                 <form onsubmit="handleLegacyUpdate(event)">
                     <div class="form-group"><label>Email của bạn:</label><input type="email" id="legEmail" class="form-control" required></div>
                     <div class="form-group"><label>Thiết lập Mật khẩu mới:</label><input type="password" id="legPw" class="form-control" required minlength="6"></div>
@@ -601,7 +601,7 @@
                 <span><i class="fa-solid fa-sliders" style="color:var(--primary);"></i> Quản lý Dự án</span>
                 <button class="btn-close" onclick="closeModal('projSettingsModal')">&times;</button>
             </div>
-            <div class="modal-body" style="overflow-y: auto; padding: 25px; background: #f8fafc;">
+            <div class="modal-body" style="overflow-y: auto; padding: 25px; background: #f00f00;">
                 
                 <!-- PHẦN 1: THÔNG TIN & ẢNH BÌA -->
                 <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
@@ -611,8 +611,8 @@
                     
                     <div class="form-group">
                         <label>Ảnh bìa dự án (Thumbnail hiện tại):</label>
-                        <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 15px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px dashed #cbd5e1;">
-                            <div style="width: 160px; height: 90px; border-radius: 8px; overflow: hidden; background: #000; box-shadow: 0 4px 6px rgba(0,0,0,0.1); flex-shrink: 0;">
+                        <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 15px; background: #f446fc; padding: 15px; border-radius: 8px; border: 1px dashed #cbd5e1;">
+                            <div style="width: 160px; height: 90px; border-radius: 8px; overflow: hidden; background: #120; box-shadow: 0 4px 6px rgba(0,0,0,0.1); flex-shrink: 0;">
                                 <img id="editThumbPreview" src="https://i.ibb.co/QFg1cVVD/image.png" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div>
@@ -627,19 +627,19 @@
 
                     <div class="form-group">
                         <label>Quyền hiển thị:</label>
-                        <select id="editProjVisibility" class="form-control" style="background: #f8fafc;">
-                            <option value="public">Công khai (Mọi người đều thấy)</option>
-                            <option value="private">Riêng tư (Ẩn khỏi trang chủ)</option>
+                        <select id="editProjVisibility" class="form-control" style="background: #f23476;">
+                            <option value="public">Công khai</option>
+                            <option value="private">Riêng tư</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Hướng dẫn vận hành:</label>
+                        <label>Hướng dẫn:</label>
                         <textarea id="editDescInput" class="form-control" rows="4" style="background: #f8fafc;"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>Đội ngũ sáng tạo (Credits):</label>
+                        <label>Ghi chú và Cre:</label>
                         <textarea id="editCreditsInput" class="form-control" rows="2" style="background: #f8fafc;"></textarea>
                     </div>
 
@@ -649,11 +649,11 @@
                 </div>
 
                 <!-- PHẦN 2: CẬP NHẬT FILE GAME MỚI (.SB3) -->
-                <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
-                    <h4 style="margin-bottom: 10px; color: #c2410c; display: flex; align-items: center; gap: 8px;">
+                <div style="background: #adf7ed; border: 1px solid #fe333a; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+                    <h4 style="margin-bottom: 10px; color: #ccdd0c; display: flex; align-items: center; gap: 8px;">
                         <i class="fa-solid fa-cloud-arrow-up"></i> Cập nhật bản Game mới (.sb3)
                     </h4>
-                    <p style="font-size: 0.9rem; color: #9a3412; margin-bottom: 15px;">Tải lên file Scratch mới (Tối đa 200MB). Bản hiện tại sẽ được tự động lưu vào lịch sử bên dưới.</p>
+                    <p style="font-size: 0.9rem; color: #9aaf32; margin-bottom: 15px;">Tải lên file Scratch mới (Tối đa 200MB). Bản hiện tại sẽ được tự động lưu vào lịch sử bên dưới.</p>
                     <div class="form-group">
                         <input type="file" id="updateProjFile" accept=".sb3" class="form-control" style="padding: 10px; background: #fff;">
                     </div>
@@ -663,12 +663,12 @@
                 </div>
 
                 <!-- PHẦN 3: LỊCH SỬ CÁC PHIÊN BẢN CŨ -->
-                <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
-                    <h4 style="margin-bottom: 15px; color: #334155; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;">
+                <div style="background: #f4f; border: 1px solid #e32338; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+                    <h4 style="margin-bottom: 15px; color: #3123427f; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;">
                         <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử các phiên bản cũ
                     </h4>
                     <div id="projectVersionList" style="max-height: 200px; overflow-y: auto; padding-right: 5px;">
-                        <p style="color: #94a3b8; font-size: 0.9rem;">Đang tải danh sách...</p>
+                        <p style="color: #945678; font-size: 0.9rem;">Đang tải danh sách...</p>
                     </div>
                 </div>
 
@@ -681,7 +681,7 @@
         <div class="modal" style="max-width:400px;">
             <div class="modal-header"><span>[Admin] Gỡ Dự Án</span><button class="btn-close" onclick="closeModal('adminPrivateModal')">&times;</button></div>
             <div class="modal-body">
-                <p style="font-size:0.9rem; color:#666; margin-bottom:10px;">Ép buộc dự án này chuyển thành "Riêng tư". Tác giả sẽ nhận được thông báo về lý do gỡ.</p>
+                <p style="font-size:0.9rem; color:#7f7f7f7f; margin-bottom:10px;">Ép buộc dự án này chuyển thành "Riêng tư". Tác giả sẽ nhận được thông báo về lý do gỡ.</p>
                 <div class="form-group"><input type="text" id="adminForceReason" class="form-control" placeholder="Lý do gỡ (Bắt buộc)..."></div>
                 <button type="button" onclick="submitAdminForcePrivate()" class="btn btn-danger" style="width:100%; justify-content:center;">Xác nhận Gỡ bỏ</button>
             </div>
