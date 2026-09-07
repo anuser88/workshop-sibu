@@ -123,15 +123,37 @@
         .action-icon-btn:hover { opacity: 1; }
 
         /* PROFILE */
+        /* PROFILE (ĐÃ THIẾT KẾ LẠI BỐ CỤC) */
         .profile-hero { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-        .profile-cover-bg { height: 140px; background: linear-gradient(135deg, #0da57a 0%, #0f172a 100%); position: relative; }
-        .profile-info-row { display: flex; padding: 0 30px 25px; gap: 25px; align-items: flex-start; position: relative; }
-        .profile-avt-wrapper { position: relative; margin-top: -55px; }
-        .profile-avt-lg { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.15); background: #fff;}
-        .profile-main-meta { flex: 1; padding-top: 15px; }
-        .profile-username-title { font-size: 1.6rem; font-weight: 800; color: #111; display: flex; align-items: center; gap: 10px; }
-        .profile-location { font-size: 0.9rem; color: #888; display: flex; align-items: center; gap: 5px; margin-top: 4px;}
-        .profile-status-badge { display: inline-flex; align-items: center; gap: 6px; background: #e6f4ea; color: #0a8260; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-top: 6px; }
+        .profile-cover-bg { height: 180px; background: linear-gradient(135deg, #0da57a 0%, #0f172a 100%); position: relative; }
+        
+        .profile-main-content { padding: 0 30px 25px; position: relative; }
+        .profile-top-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: -60px; margin-bottom: 15px; }
+        .profile-avt-wrapper { position: relative; }
+        .profile-avt-lg { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 5px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #fff;}
+        .profile-actions { display: flex; gap: 10px; margin-bottom: 15px; }
+
+        .profile-info-body { margin-top: 10px; }
+        .profile-username-title { font-size: 1.8rem; font-weight: 800; color: #111; display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+        .profile-location, .profile-status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; margin-top: 8px;}
+        .profile-location { color: #64748b; margin-right: 15px; }
+        .profile-status-badge { background: #e6f4ea; color: #0a8260; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+        
+        .profile-bio-box { margin-top: 15px; margin-bottom: 20px; max-width: 800px;}
+        .profile-bio-box p { font-size: 1.05rem; color: #334155; line-height: 1.6; white-space: pre-line; }
+
+        /* GIAO DIỆN THỐNG KÊ CHIỀU NGANG */
+        .profile-stats-bar { display: flex; gap: 15px; margin-top: 10px; padding-top: 20px; border-top: 1px solid #f1f5f9; flex-wrap: wrap; justify-content: flex-start; }
+        .stat-badge { min-width: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; padding: 12px 20px; border-radius: 12px; border: 1px solid #e2e8f0; transition: 0.2s; cursor: pointer; }
+        .stat-badge:hover { background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .stat-badge b { color: #0f172a; font-weight: 800; font-size: 1.4rem; margin-bottom: 4px; line-height: 1;}
+        .stat-badge span { font-size: 0.8rem; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; text-align: center;}
+
+        /* UI Danh sách Follow */
+        .follow-user-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-bottom: 1px solid #f1f5f9; text-decoration: none; color: #333; transition: 0.2s; }
+        .follow-user-item:hover { background: #f8fafc; border-radius: 8px; border-bottom-color: transparent; }
+        .follow-user-avt-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1px solid #e2e8f0; background: #fff;}
+        .follow-user-name { font-weight: bold; font-size: 0.95rem; color: #0f172a; }
         
         /* GIAO DIỆN THỐNG KÊ MỚI (KIỂU TIKTOK/INSTA) */
         .profile-stats-bar { display: flex; gap: 10px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f5f9; flex-wrap: wrap; }
@@ -336,24 +358,34 @@
 
             <div class="profile-hero">
                 <div class="profile-cover-bg"></div>
-                <div class="profile-info-row">
-                    <div class="profile-avt-wrapper">
-                        <img id="profAvt" src="https://i.ibb.co/QFg1cVVD/image.png" class="profile-avt-lg" onerror="this.src='https://i.ibb.co/QFg1cVVD/image.png'">
-                    </div>
-                    <div class="profile-main-meta">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div class="profile-username-title">
-                                <span id="profDisplayName">Display Name</span>
-                                <span id="profScratchBadge" style="display:none;" title="Tài khoản Scratch đã xác thực"><i class="fa-solid fa-circle-check" style="color:#3b82f6; font-size:1.2rem;"></i></span>
-                            </div>
-                            <div style="display:flex; gap:10px;">
-                                <button id="btnFollowProf" class="btn btn-primary" style="display:none;" onclick="toggleFollow()"><i class="fa-solid fa-user-plus"></i> Theo dõi</button>
-                                <button id="btnAdminWarn" class="btn btn-danger" style="display:none;" onclick="openAdminWarnModal()"><i class="fa-solid fa-shield"></i> Warn</button>
-                            </div>
+                
+                <div class="profile-main-content">
+                    <div class="profile-top-row">
+                        <div class="profile-avt-wrapper">
+                            <img id="profAvt" src="https://i.ibb.co/QFg1cVVD/image.png" class="profile-avt-lg" onerror="this.src='https://i.ibb.co/QFg1cVVD/image.png'">
                         </div>
-                        <div style="color:var(--text-muted); font-size:0.95rem; margin-top:2px;">@<span id="profUsername">username</span></div>
-                        <div class="profile-location" id="profLocation"><i class="fa-solid fa-location-dot"></i> Đang cập nhật...</div>
-                        <div class="profile-status-badge" id="profStatus"><i class="fa-solid fa-comment-dots"></i> ...</div>
+                        <div class="profile-actions">
+                            <button id="btnFollowProf" class="btn btn-primary" style="display:none;" onclick="toggleFollow()"><i class="fa-solid fa-user-plus"></i> Theo dõi</button>
+                            <button id="btnAdminWarn" class="btn btn-danger" style="display:none;" onclick="openAdminWarnModal()"><i class="fa-solid fa-shield"></i> Warn</button>
+                            <a id="btnEditProfModal" class="btn" href="#settings" style="display:none;"><i class="fa-solid fa-pen"></i> Chỉnh sửa</a>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-body">
+                        <div class="profile-username-title">
+                            <span id="profDisplayName">Display Name</span>
+                            <span id="profScratchBadge" style="display:none;" title="Tài khoản Scratch đã xác thực"><i class="fa-solid fa-circle-check" style="color:#3b82f6; font-size:1.3rem;"></i></span>
+                        </div>
+                        <div style="color:var(--text-muted); font-size:1rem; margin-bottom: 12px; font-weight: 500;">@<span id="profUsername">username</span></div>
+                        
+                        <div class="profile-bio-box">
+                            <p id="profBio">Đang tải...</p>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+                            <div class="profile-location" id="profLocation"><i class="fa-solid fa-location-dot"></i> Đang cập nhật...</div>
+                            <div class="profile-status-badge" id="profStatus"><i class="fa-solid fa-comment-dots"></i> ...</div>
+                        </div>
                         
                         <div class="profile-stats-bar">
                             <div class="stat-badge" title="Số lượng dự án đã đăng">
@@ -369,13 +401,11 @@
                                 <b id="statFollowersCount">0</b><span>Người theo dõi</span>
                             </div>
                         </div>
-                <div style="padding: 0 30px 25px;">
-                    <div class="profile-bio-box">
-                        <h4>Giới thiệu cá nhân</h4>
-                        <p id="profBio">Đang tải...</p>
                     </div>
                 </div>
             </div>
+
+            <!-- Bỏ style max-width ở các Tab đi để nội dung tràn đều đẹp hơn -->
 
             <div class="profile-nav-tabs">
                 <button class="prof-tab-btn active" id="tabBtnProf-projects" onclick="switchProfTab('projects')"><i class="fa-solid fa-folder-open"></i> Tác phẩm</button>
@@ -1714,6 +1744,7 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         // XỬ LÝ MỞ BẢNG DANH SÁCH FOLLOW
+        // XỬ LÝ MỞ BẢNG DANH SÁCH FOLLOW & TẢI AVATAR TỰ ĐỘNG
         function openFollowListModal(type) {
             if (!viewingProfileData) return;
             const isFollowers = type === 'followers';
@@ -1730,9 +1761,10 @@
             if (list.length === 0) {
                 container.innerHTML = `<div style="text-align:center; padding:30px 10px; color:#888;"><i class="fa-solid fa-box-open" style="font-size:2rem; color:#cbd5e1; margin-bottom:10px;"></i><br>Danh sách trống</div>`;
             } else {
+                // Tạo sẵn HTML với ảnh Placeholder mặc định
                 container.innerHTML = list.map(username => `
                     <a href="#profile/${username}" class="follow-user-item" onclick="closeModal('followListModal')">
-                        <div class="follow-user-avt-placeholder"><i class="fa-solid fa-user"></i></div>
+                        <img id="follow-avt-${username}" src="${DEFAULT_AVATAR}" class="follow-user-avt-img">
                         <div style="flex:1;">
                             <div class="follow-user-name">@${escapeHtml(username)}</div>
                             <div style="font-size:0.8rem; color:#888;">Thành viên StudioDANV</div>
@@ -1740,6 +1772,19 @@
                         <i class="fa-solid fa-chevron-right" style="color:#cbd5e1;"></i>
                     </a>
                 `).join('');
+
+                // Gửi Request ngầm để kéo Avatar thật của từng User về thay thế
+                list.forEach(username => {
+                    fetch(`${WORKER_URL}/api/user/${encodeURIComponent(username)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if(data && data.avt) {
+                                const imgEl = document.getElementById(`follow-avt-${username}`);
+                                if(imgEl) imgEl.src = getAvtUrl(data.avt);
+                            }
+                        })
+                        .catch(e => console.log("Lỗi tải avt follow:", e));
+                });
             }
 
             openModal('followListModal');
