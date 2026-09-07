@@ -133,9 +133,12 @@
         .profile-location { font-size: 0.9rem; color: #888; display: flex; align-items: center; gap: 5px; margin-top: 4px;}
         .profile-status-badge { display: inline-flex; align-items: center; gap: 6px; background: #e6f4ea; color: #0a8260; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-top: 6px; }
         
-        .profile-stats-bar { display: flex; gap: 20px; margin-top: 15px; padding-top: 15px; border-top: 1px solid #f1f5f9; }
-        .stat-badge { font-size: 0.9rem; color: var(--text-muted); cursor: pointer; }
-        .stat-badge b { color: #111; font-weight: 700; font-size: 1.1rem;}
+        /* GIAO DIỆN THỐNG KÊ MỚI (KIỂU TIKTOK/INSTA) */
+        .profile-stats-bar { display: flex; gap: 10px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f5f9; flex-wrap: wrap; }
+        .stat-badge { flex: 1; min-width: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; padding: 12px 10px; border-radius: 12px; border: 1px solid #e2e8f0; transition: 0.2s; cursor: pointer; }
+        .stat-badge:hover { background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .stat-badge b { color: #0f172a; font-weight: 800; font-size: 1.3rem; margin-bottom: 4px; line-height: 1;}
+        .stat-badge span { font-size: 0.75rem; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; text-align: center;}
 
         .profile-bio-box { background: #f8fafc; padding: 14px 18px; border-radius: 10px; border: 1px solid #eef2f6; margin-top: 15px; }
         .profile-bio-box h4 { font-size: 0.8rem; text-transform: uppercase; color: #888; margin-bottom: 4px; letter-spacing: 0.5px; }
@@ -353,10 +356,18 @@
                         <div class="profile-status-badge" id="profStatus"><i class="fa-solid fa-comment-dots"></i> ...</div>
                         
                         <div class="profile-stats-bar">
-                            <div class="stat-badge">Tác phẩm: <b id="statProjectCount">0</b></div>
-                            <div class="stat-badge">Lượt Thích: <b id="statLikeCount">0</b></div>
-                            <div class="stat-badge" onclick="openFollowListModal('following')" title="Xem ai mà người này đang theo dõi" style="transition: 0.2s;">Đang theo dõi: <b id="statFollowingCount">0</b></div>
-                            <div class="stat-badge" onclick="openFollowListModal('followers')" title="Xem ai đang theo dõi người này" style="transition: 0.2s;">Người theo dõi: <b id="statFollowersCount">0</b></div>
+                            <div class="stat-badge" title="Số lượng dự án đã đăng">
+                                <b id="statProjectCount">0</b><span>Tác phẩm</span>
+                            </div>
+                            <div class="stat-badge" title="Tổng lượt thích nhận được">
+                                <b id="statLikeCount">0</b><span>Lượt Thích</span>
+                            </div>
+                            <div class="stat-badge" onclick="openFollowListModal('following')" title="Xem những ai người này đang theo dõi">
+                                <b id="statFollowingCount">0</b><span>Đang theo dõi</span>
+                            </div>
+                            <div class="stat-badge" onclick="openFollowListModal('followers')" title="Xem ai đang theo dõi người này">
+                                <b id="statFollowersCount">0</b><span>Người theo dõi</span>
+                            </div>
                         </div>
                 <div style="padding: 0 30px 25px;">
                     <div class="profile-bio-box">
