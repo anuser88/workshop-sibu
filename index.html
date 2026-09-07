@@ -142,6 +142,15 @@
         .profile-bio-box p { font-size: 0.95rem; color: #333; line-height: 1.5; white-space: pre-line; }
 
         .profile-featured-banner { display: flex; background: #1e293b; border-radius: 12px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-left: 5px solid var(--primary);}
+        .profile-bio-box p { font-size: 0.95rem; color: #333; line-height: 1.5; white-space: pre-line; }
+
+        /* UI Danh sách Follow */
+        .follow-user-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-bottom: 1px solid #f1f5f9; text-decoration: none; color: #333; transition: 0.2s; }
+        .follow-user-item:hover { background: #f8fafc; border-radius: 8px; border-bottom-color: transparent; }
+        .follow-user-avt-placeholder { width: 40px; height: 40px; border-radius: 50%; background: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 1.2rem; }
+        .follow-user-name { font-weight: bold; font-size: 0.95rem; color: #0f172a; }
+
+        .profile-featured-banner { display: flex; background: #1e293b; border-radius: 12px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-left: 5px solid var(--primary);}
         .banner-thumb-area { width: 350px; background: #111; flex-shrink: 0; }
         .banner-thumb-area img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;}
         .profile-featured-banner:hover .banner-thumb-area img { opacity: 1; transform: scale(1.02);}
@@ -346,11 +355,9 @@
                         <div class="profile-stats-bar">
                             <div class="stat-badge">Tác phẩm: <b id="statProjectCount">0</b></div>
                             <div class="stat-badge">Lượt Thích: <b id="statLikeCount">0</b></div>
-                            <div class="stat-badge">Đang theo dõi: <b id="statFollowingCount">0</b></div>
-                            <div class="stat-badge">Người theo dõi: <b id="statFollowersCount">0</b></div>
+                            <div class="stat-badge" onclick="openFollowListModal('following')" title="Xem ai mà người này đang theo dõi" style="transition: 0.2s;">Đang theo dõi: <b id="statFollowingCount">0</b></div>
+                            <div class="stat-badge" onclick="openFollowListModal('followers')" title="Xem ai đang theo dõi người này" style="transition: 0.2s;">Người theo dõi: <b id="statFollowersCount">0</b></div>
                         </div>
-                    </div>
-                </div>
                 <div style="padding: 0 30px 25px;">
                     <div class="profile-bio-box">
                         <h4>Giới thiệu cá nhân</h4>
@@ -695,7 +702,18 @@
             </div>
         </div>
     </div>
-
+    <!-- MODAL DANH SÁCH FOLLOW -->
+    <div class="modal-overlay" id="followListModal">
+        <div class="modal" style="max-width:400px; display: flex; flex-direction: column; max-height: 80vh;">
+            <div class="modal-header">
+                <span id="followListTitle"><i class="fa-solid fa-users"></i> Danh sách</span>
+                <button class="btn-close" onclick="closeModal('followListModal')">&times;</button>
+            </div>
+            <div class="modal-body" style="overflow-y: auto; padding: 10px; background: #fff;" id="followListContainer">
+                <!-- Data đổ vào đây -->
+            </div>
+        </div>
+    </div>
     <!-- ================= JAVASCRIPT CORE ================= -->
     <script>
         const WIKI_CLIENT_ID = "70970406"; 
@@ -1684,6 +1702,37 @@
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        // XỬ LÝ MỞ BẢNG DANH SÁCH FOLLOW
+        function openFollowListModal(type) {
+            if (!viewingProfileData) return;
+            const isFollowers = type === 'followers';
+            const list = isFollowers ? (viewingProfileData.followers || []) : (viewingProfileData.following || []);
+
+            // Set Title
+            document.getElementById('followListTitle').innerHTML = isFollowers 
+                ? '<i class="fa-solid fa-users" style="color:var(--primary);"></i> Người theo dõi' 
+                : '<i class="fa-solid fa-user-check" style="color:var(--primary);"></i> Đang theo dõi';
+
+            const container = document.getElementById('followListContainer');
+
+            // Render List
+            if (list.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:30px 10px; color:#888;"><i class="fa-solid fa-box-open" style="font-size:2rem; color:#cbd5e1; margin-bottom:10px;"></i><br>Danh sách trống</div>`;
+            } else {
+                container.innerHTML = list.map(username => `
+                    <a href="#profile/${username}" class="follow-user-item" onclick="closeModal('followListModal')">
+                        <div class="follow-user-avt-placeholder"><i class="fa-solid fa-user"></i></div>
+                        <div style="flex:1;">
+                            <div class="follow-user-name">@${escapeHtml(username)}</div>
+                            <div style="font-size:0.8rem; color:#888;">Thành viên StudioDANV</div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="color:#cbd5e1;"></i>
+                    </a>
+                `).join('');
+            }
+
+            openModal('followListModal');
+        }
         function getAvtUrl(id) { return id ? `${WORKER_URL}/api/project/${id}` : DEFAULT_AVATAR; }
         function escapeHtml(text) { return text ? text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;") : ''; }
 
