@@ -55,4 +55,18 @@
   "toast_success": "Success!",
   "toast_error": "An error occurred",
   "time_just_now": "just now"
+
+  "settings_public_profile": "Public Profile",
+  "settings_avatar": "Change Avatar (Max 5MB):",
+  "settings_display_name": "Display Name:",
+  "settings_location": "City / Country:",
+  "settings_status": "Status:",
+  "settings_bio": "Biography:",
+  "settings_banner_proj": "Featured Banner Project:",
+  "settings_auth_link": "Authentication & Links",
+  "settings_options": "Options",
+  "settings_engine": "Programming Engine:",
+  "settings_tos": "Terms of Service (TOS)",
+  "settings_privacy": "Privacy Policy",
+  "settings_support": "Support:"
 }
