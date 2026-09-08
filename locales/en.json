@@ -100,7 +100,7 @@
   "create_btn_home": "Back to Home",
 
   "auth_login_title": "Log In",
-  "auth_login_id": "Username / Email:",
+  "auth_login_id": "Username or Email:",
   "auth_login_pw": "Password:",
   "auth_login_btn": "Log In",
   "auth_login_no_acc": "Don't have an account?",
