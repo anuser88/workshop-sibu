@@ -1,0 +1,58 @@
+{
+  "brand_title": "DANVworkshop - Cộng đồng lập trình ACGN",
+  "brand_logo": "https://i.ibb.co/9mhxsQM2/ezgif-1b203d38782d98f9.png",
+  
+  "nav_explore": "Khám phá",
+  "nav_create": "Sáng tạo",
+  "nav_upload": "Tải lên",
+  "nav_login": "Đăng nhập",
+
+  "home_featured": "Tác phẩm tiêu biểu",
+  "badge_private": "Riêng tư",
+  "author_by": "Bởi: {author}",
+  
+  "proj_source": "Mã nguồn",
+  "proj_tab_info": "Thông tin",
+  "proj_tab_comments": "Bình luận",
+  "proj_instructions": "Hướng dẫn vận hành",
+  "proj_credits": "Đội ngũ / Credits",
+  "proj_no_comments": "Chưa có bình luận.",
+  "proj_comment_ph": "Viết bình luận...",
+  "proj_reply": "Trả lời",
+  "proj_delete": "[Xóa]",
+  
+  "prof_followers": "Người theo dõi",
+  "prof_following": "Đang theo dõi",
+  "prof_projects": "Tác phẩm",
+  "prof_liked": "Đã thích",
+  "prof_activities": "Hoạt động",
+  "prof_comments": "Lời nhắn",
+  "prof_btn_follow": "Theo dõi",
+  "prof_btn_following": "Đang theo dõi",
+  "prof_btn_edit": "Chỉnh sửa",
+  "prof_no_bio": "Chưa có phần giới thiệu.",
+  "prof_empty_list": "Danh sách trống",
+  
+  "upload_title": "Xuất bản tác phẩm mới",
+  "upload_thumb_label": "Ảnh bìa dự án (Thumbnail)",
+  "upload_thumb_hint": "Bấm để chọn hoặc kéo ảnh vào đây",
+  "upload_file_label": "File Scratch (.sb3) *",
+  "upload_name_label": "Tên tác phẩm *",
+  "upload_vis_label": "Quyền hiển thị",
+  "upload_vis_public": "Công khai (Mọi người đều thấy)",
+  "upload_vis_private": "Riêng tư (Chỉ mình tôi)",
+  "upload_submit": "Đăng lên nền tảng",
+  
+  "settings_title": "Cài đặt tài khoản",
+  "settings_lang": "Ngôn ngữ (Language):",
+  "settings_save": "Lưu thông tin",
+  "settings_logout": "Đăng xuất tài khoản",
+
+  "notif_title": "Tin nhắn",
+  "notif_mark_read": "Đánh dấu đã đọc tất cả",
+  "notif_empty": "Bạn chưa có tin nhắn nào.",
+  
+  "toast_success": "Thành công!",
+  "toast_error": "Có lỗi xảy ra",
+  "time_just_now": "vừa xong"
+}

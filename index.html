@@ -527,7 +527,7 @@
                     </div>
                     <div class="form-group">
                         <label>Ngôn ngữ (Language):</label>
-                        <select id="langSelect" class="form-control" onchange="changeLanguage(this.value)">
+                        <select id="langSelect" class="form-control" onchange="setLanguage(this.value)">
                             <option value="vi">Tiếng Việt</option>
                             <option value="en">English</option>
                         </select>
@@ -768,6 +768,57 @@
         let isPosting = { proj: false, prof: false };
         let reportTarget = { type: null, id: null };
 
+        // ==========================================
+        // BỘ MÁY ĐA NGÔN NGỮ (I18N ENGINE)
+        // ==========================================
+        let currentLang = localStorage.getItem('lang') || (navigator.language.startsWith('vi') ? 'vi' : 'en');
+        let langData = {};
+
+        async function setLanguage(lang) {
+            try {
+                const res = await fetch(`./locales/${lang}.json`);
+                if (!res.ok) throw new Error("Language file not found");
+                langData = await res.json();
+                
+                currentLang = lang;
+                localStorage.setItem('lang', lang);
+                document.documentElement.lang = lang;
+                
+                // Đồng bộ Select Box ở cài đặt (nếu có)
+                const selectEl = document.getElementById('langSelect');
+                if(selectEl) selectEl.value = lang;
+
+                // Áp dụng dữ liệu JSON Động (Title, Logo)
+                if (langData['brand_title']) document.title = langData['brand_title'];
+                const logoImg = document.querySelector('.nav-logo-img');
+                if(logoImg && langData['brand_logo']) logoImg.src = langData['brand_logo'];
+
+                updateStaticDOM();
+                
+                // Nếu đã load xong app, re-render các content động
+                if(allProjects && allProjects.length > 0) handleRouting(); 
+            } catch (e) { console.error("Lỗi tải ngôn ngữ:", e); }
+        }
+
+        function t(key, params = {}) {
+            let str = langData[key] || key;
+            for (const [k, v] of Object.entries(params)) {
+                str = str.replace(new RegExp(`{${k}}`, 'g'), v);
+            }
+            return str;
+        }
+
+        function updateStaticDOM() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (langData[key]) el.innerHTML = langData[key];
+            });
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (langData[key]) el.placeholder = langData[key];
+            });
+        }
+
         // TOAST
         function showToast(msg, type = 'info') {
             const container = document.getElementById('toastContainer');
@@ -792,6 +843,8 @@
         document.addEventListener('DOMContentLoaded', async () => {
             const loader = document.getElementById('globalLoader');
             try {
+                // Kích hoạt đa ngôn ngữ
+                await setLanguage(currentLang);
                 const urlParams = new URLSearchParams(window.location.search);
                 if (urlParams.get('code')) {
                     window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
@@ -1344,7 +1397,7 @@
             btn.innerText = "Lưu thông tin"; btn.disabled = false;
         }
 
-        function changeLanguage(lang) { localStorage.setItem('lang', lang); showToast("Đã đổi ngôn ngữ (Cần F5 để áp dụng hoàn toàn)", "success"); }
+        function changeLanguage(lang) { localStorage.setItem('lang', lang); showToast("Language changed.", "success"); }
 
         // ================= UPLOAD TRỰC QUAN MỚI =================
         function handleThumbnailPreviewBig(input) {
@@ -1537,24 +1590,26 @@
         }
 
         // ================= TIỆN ÍCH KHÁC =================
-        // TÍNH THỜI GIAN TƯƠNG ĐỐI (Giây trước, Phút trước...)
+        // TÍNH THỜI GIAN TƯƠNG ĐỐI BẰNG API ĐA NGÔN NGỮ CỦA TRÌNH DUYỆT
         function timeAgo(dateString) {
             try {
                 let clean = dateString.replace(/,/g, '').trim().split(' ');
-                let t = clean[0].includes(':') ? clean[0] : clean[1];
-                let d = clean[0].includes('/') ? clean[0] : clean[1];
-                if(!t || !d) return dateString;
-                let [h, m, s] = t.split(':'); let [D, M, Y] = d.split('/');
+                let t_str = clean[0].includes(':') ? clean[0] : clean[1];
+                let d_str = clean[0].includes('/') ? clean[0] : clean[1];
+                if(!t_str || !d_str) return dateString;
+                
+                let [h, m, s] = t_str.split(':'); let [D, M, Y] = d_str.split('/');
                 let past = new Date(Y, M-1, D, h, m, s).getTime();
                 let diff = Math.floor((Date.now() - past) / 1000);
                 
-                if (diff < 0) return "vừa xong";
-                if (diff < 60) return diff + " giây trước";
-                if (diff < 3600) return Math.floor(diff/60) + " phút trước";
-                if (diff < 86400) return Math.floor(diff/3600) + " giờ trước";
-                if (diff < 2592000) return Math.floor(diff/86400) + " ngày trước";
-                if (diff < 31104000) return Math.floor(diff/2592000) + " tháng trước";
-                return Math.floor(diff/31104000) + " năm trước";
+                if (diff < 60) return t('time_just_now') || "vừa xong";
+
+                const rtf = new Intl.RelativeTimeFormat(currentLang, { numeric: 'auto' });
+                if (diff < 3600) return rtf.format(-Math.round(diff / 60), 'minute');
+                if (diff < 86400) return rtf.format(-Math.round(diff / 3600), 'hour');
+                if (diff < 2592000) return rtf.format(-Math.round(diff / 86400), 'day');
+                if (diff < 31104000) return rtf.format(-Math.round(diff / 2592000), 'month');
+                return rtf.format(-Math.round(diff / 31104000), 'year');
             } catch(e) { return dateString; }
         }
 

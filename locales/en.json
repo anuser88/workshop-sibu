@@ -1,0 +1,58 @@
+{
+  "brand_title": "DANVworkshop - Coding Community, Beyond the Blocks",
+  "brand_logo": "https://i.ibb.co/6yJzj3q/EN-LOGO-PLACEHOLDER.png",
+  
+  "nav_explore": "Explore",
+  "nav_create": "Create",
+  "nav_upload": "Upload",
+  "nav_login": "Log In",
+
+  "home_featured": "Featured Projects",
+  "badge_private": "Private",
+  "author_by": "By: {author}",
+  
+  "proj_source": "Source Code",
+  "proj_tab_info": "Information",
+  "proj_tab_comments": "Comments",
+  "proj_instructions": "Instructions",
+  "proj_credits": "Credits / Notes",
+  "proj_no_comments": "No comments yet.",
+  "proj_comment_ph": "Write a comment...",
+  "proj_reply": "Reply",
+  "proj_delete": "[Delete]",
+  
+  "prof_followers": "Followers",
+  "prof_following": "Following",
+  "prof_projects": "Projects",
+  "prof_liked": "Favorites",
+  "prof_activities": "Activity",
+  "prof_comments": "Messages",
+  "prof_btn_follow": "Follow",
+  "prof_btn_following": "Following",
+  "prof_btn_edit": "Edit Profile",
+  "prof_no_bio": "No biography yet.",
+  "prof_empty_list": "List is empty",
+  
+  "upload_title": "Publish New Project",
+  "upload_thumb_label": "Project Thumbnail",
+  "upload_thumb_hint": "Click or drag image here",
+  "upload_file_label": "Scratch File (.sb3) *",
+  "upload_name_label": "Project Title *",
+  "upload_vis_label": "Visibility",
+  "upload_vis_public": "Public (Everyone can see)",
+  "upload_vis_private": "Private (Only me)",
+  "upload_submit": "Publish to Platform",
+  
+  "settings_title": "Account Settings",
+  "settings_lang": "Language (Ngôn ngữ):",
+  "settings_save": "Save Changes",
+  "settings_logout": "Log Out",
+
+  "notif_title": "Messages",
+  "notif_mark_read": "Mark all as read",
+  "notif_empty": "You have no messages.",
+  
+  "toast_success": "Success!",
+  "toast_error": "An error occurred",
+  "time_just_now": "just now"
+}
