@@ -800,7 +800,10 @@
 
         async function setLanguage(lang) {
             try {
-                const res = await fetch(`./locales/${lang}.json`);
+                // Thêm ?v=... để chống trình duyệt lưu Cache file cũ
+                const noCacheUrl = `./locales/${lang}.json?v=` + new Date().getTime();
+                
+                const res = await fetch(noCacheUrl);
                 if (!res.ok) throw new Error("Language file not found");
                 langData = await res.json();
                 
@@ -808,20 +811,22 @@
                 localStorage.setItem('lang', lang);
                 document.documentElement.lang = lang;
                 
-                // Đồng bộ Select Box ở cài đặt (nếu có)
                 const selectEl = document.getElementById('langSelect');
                 if(selectEl) selectEl.value = lang;
 
-                // Áp dụng dữ liệu JSON Động (Title, Logo)
                 if (langData['brand_title']) document.title = langData['brand_title'];
                 const logoImg = document.querySelector('.nav-logo-img');
                 if(logoImg && langData['brand_logo']) logoImg.src = langData['brand_logo'];
 
                 updateStaticDOM();
                 
-                // Nếu đã load xong app, re-render các content động
+                // Load lại dữ liệu dự án nếu đang ở trang chủ
                 if(allProjects && allProjects.length > 0) handleRouting(); 
-            } catch (e) { console.error("Lỗi tải ngôn ngữ:", e); }
+            } catch (e) { 
+                console.error("Lỗi tải ngôn ngữ:", e); 
+                // Hiện thông báo lỗi trực tiếp trên web cho dễ biết
+                showToast("Không tìm thấy tệp ngôn ngữ: " + lang, "error");
+            }
         }
 
         function t(key, params = {}) {

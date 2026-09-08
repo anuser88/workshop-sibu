@@ -54,7 +54,7 @@
   
   "toast_success": "Success!",
   "toast_error": "An error occurred",
-  "time_just_now": "just now"
+  "time_just_now": "just now",
 
   "settings_public_profile": "Public Profile",
   "settings_avatar": "Change Avatar (Max 5MB):",
