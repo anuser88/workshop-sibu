@@ -279,7 +279,7 @@
                     <div class="action-btns">
                         <button class="act-btn" id="btnLike" onclick="toggleAction('like')"><i class="fa-solid fa-heart"></i> <span id="likeCount">0</span></button>
                         <button class="act-btn" id="btnStar" onclick="toggleAction('star')"><i class="fa-solid fa-star"></i> <span id="starCount">0</span></button>
-                        <a id="btnSeeInside" href="#" target="_blank" class="btn"><i class="fa-solid fa-code"></i> Mã nguồn</a>
+                        <a id="btnSeeInside" href="#" target="_blank" class="btn"><i class="fa-solid fa-code"></i> <span data-i18n="proj_source">Mã nguồn</span></a>
                         <button class="btn btn-danger" onclick="openReportModal('project')"><i class="fa-solid fa-flag"></i></button>
                         <button class="btn" id="btnProjSettings" style="display:none; background:#333; color:#fff;" onclick="openModal('projSettingsModal')"><i class="fa-solid fa-gear"></i></button>
                         <button class="btn btn-danger" id="btnAdminForcePrivate" style="display:none;" onclick="openAdminPrivateModal()"><i class="fa-solid fa-shield-halved"></i> Gỡ</button>
@@ -289,17 +289,17 @@
 
             <div class="ccw-sidebar">
                 <div class="sidebar-tabs">
-                    <button class="tab-btn active" id="tabBtn-info" onclick="switchProjTab('info')">Thông tin</button>
-                    <button class="tab-btn" id="tabBtn-comments" onclick="switchProjTab('comments')">Bình luận</button>
+                    <button class="tab-btn active" id="tabBtn-info" onclick="switchProjTab('info')" data-i18n="proj_tab_info">Thông tin</button>
+                    <button class="tab-btn" id="tabBtn-comments" onclick="switchProjTab('comments')" data-i18n="proj_tab_comments">Bình luận</button>
                 </div>
                 
                 <div id="tabContent-info" class="tab-content active">
                     <div class="info-card">
-                        <div class="info-header"><i class="fa-solid fa-gamepad" style="color:var(--primary);"></i> Hướng dẫn vận hành</div>
+                        <div class="info-header"><i class="fa-solid fa-gamepad" style="color:var(--primary);"></i> <span data-i18n="proj_instructions">Hướng dẫn vận hành</span></div>
                         <div class="info-body" id="projDesc">Chưa có hướng dẫn.</div>
                     </div>
                     <div class="info-card">
-                        <div class="info-header"><i class="fa-solid fa-users" style="color:var(--primary);"></i> Đội ngũ / Credits</div>
+                        <div class="info-header"><i class="fa-solid fa-users" style="color:var(--primary);"></i> <span data-i18n="proj_credits">Đội ngũ / Credits</span></div>
                         <div class="info-body" id="projCredits">Tác giả gốc.</div>
                     </div>
                 </div>
@@ -367,7 +367,7 @@
                         <div class="profile-actions">
                             <button id="btnFollowProf" class="btn btn-primary" style="display:none;" onclick="toggleFollow()"><i class="fa-solid fa-user-plus"></i> Theo dõi</button>
                             <button id="btnAdminWarn" class="btn btn-danger" style="display:none;" onclick="openAdminWarnModal()"><i class="fa-solid fa-shield"></i> Warn</button>
-                            <a id="btnEditProfModal" class="btn" href="#settings" style="display:none;"><i class="fa-solid fa-pen"></i> Chỉnh sửa</a>
+                            <a id="btnEditProfModal" class="btn" href="#settings" style="display:none;"><i class="fa-solid fa-pen"></i> <span data-i18n="prof_btn_edit">Chỉnh sửa</span></a>
                         </div>
                     </div>
 
@@ -389,16 +389,16 @@
                         
                         <div class="profile-stats-bar">
                             <div class="stat-badge" title="Số lượng dự án đã đăng">
-                                <b id="statProjectCount">0</b><span>Tác phẩm</span>
+                                <b id="statProjectCount">0</b><span data-i18n="prof_projects">Tác phẩm</span>
                             </div>
                             <div class="stat-badge" title="Tổng lượt thích nhận được">
-                                <b id="statLikeCount">0</b><span>Lượt Thích</span>
+                                <b id="statLikeCount">0</b><span data-i18n="prof_liked">Lượt Thích</span>
                             </div>
                             <div class="stat-badge" onclick="openFollowListModal('following')" title="Xem những ai người này đang theo dõi">
-                                <b id="statFollowingCount">0</b><span>Đang theo dõi</span>
+                                <b id="statFollowingCount">0</b><span data-i18n="prof_following">Đang theo dõi</span>
                             </div>
                             <div class="stat-badge" onclick="openFollowListModal('followers')" title="Xem ai đang theo dõi người này">
-                                <b id="statFollowersCount">0</b><span>Người theo dõi</span>
+                                <b id="statFollowersCount">0</b><span data-i18n="prof_followers">Người theo dõi</span>
                             </div>
                         </div>
                     </div>
@@ -408,10 +408,10 @@
             <!-- Bỏ style max-width ở các Tab đi để nội dung tràn đều đẹp hơn -->
 
             <div class="profile-nav-tabs">
-                <button class="prof-tab-btn active" id="tabBtnProf-projects" onclick="switchProfTab('projects')"><i class="fa-solid fa-folder-open"></i> Tác phẩm</button>
-                <button class="prof-tab-btn" id="tabBtnProf-likes" onclick="switchProfTab('likes')"><i class="fa-solid fa-heart"></i> Đã thích</button>
-                <button class="prof-tab-btn" id="tabBtnProf-activities" onclick="switchProfTab('activities')"><i class="fa-solid fa-clock-rotate-left"></i> Hoạt động</button>
-                <button class="prof-tab-btn" id="tabBtnProf-comments" onclick="switchProfTab('comments')"><i class="fa-solid fa-comments"></i> Lời nhắn</button>
+                <button class="prof-tab-btn active" id="tabBtnProf-projects" onclick="switchProfTab('projects')"><i class="fa-solid fa-folder-open"></i> <span data-i18n="prof_projects">Tác phẩm</span></button>
+                <button class="prof-tab-btn" id="tabBtnProf-likes" onclick="switchProfTab('likes')"><i class="fa-solid fa-heart"></i> <span data-i18n="prof_liked">Đã thích</span></button>
+                <button class="prof-tab-btn" id="tabBtnProf-activities" onclick="switchProfTab('activities')"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="prof_activities">Hoạt động</span></button>
+                <button class="prof-tab-btn" id="tabBtnProf-comments" onclick="switchProfTab('comments')"><i class="fa-solid fa-comments"></i> <span data-i18n="prof_comments">Lời nhắn</span></button>
             </div>
 
             <div id="profTab-projects" class="prof-tab-content active"><div class="project-grid" id="userProjectList">Đang tải...</div></div>
@@ -491,21 +491,23 @@
             <div style="display:flex; gap:30px; align-items:flex-start;">
                 <!-- Form Đổi Thông tin -->
                 <div style="flex:1;">
-                    <h4 style="margin-bottom:15px;">Hồ sơ công khai</h4>
+                    <h4 style="margin-bottom:15px;" data-i18n="settings_public_profile">Hồ sơ công khai</h4>
                     <form id="editProfForm">
-                        <div class="form-group"><label>Đổi Ảnh đại diện (Tối đa 5MB):</label><input type="file" id="editAvtFile" accept="image/*" class="form-control" style="padding:8px;"></div>
-                        <div class="form-group"><label>Tên hiển thị (Display Name):</label><input type="text" id="editDisplayNameInput" class="form-control" placeholder="Tên hiển thị tự do..."></div>
-                        <div class="form-group"><label>Tỉnh thành / Quốc gia:</label><input type="text" id="editLocationInput" class="form-control" placeholder="Ví dụ: Hà Nội, VN"></div>
-                        <div class="form-group"><label>Trạng thái (Status):</label><input type="text" id="editStatusInput" class="form-control" placeholder="Đang làm game..."></div>
-                        <div class="form-group"><label>Giới thiệu (Bio):</label><textarea id="editBioInput" class="form-control" rows="3"></textarea></div>
-                        <div class="form-group"><label>Dự án làm Banner nổi bật:</label><select id="editFeaturedProjSelect" class="form-control"><option value="">-- Không chọn --</option></select></div>
-                        <button type="button" onclick="saveProfileInfoBtn()" class="btn btn-primary" id="btnSaveProfSubmit" style="width: 100%; justify-content:center;">Lưu thông tin</button>
+                        <div class="form-group"><label data-i18n="settings_avatar">Đổi Ảnh đại diện (Tối đa 5MB):</label><input type="file" id="editAvtFile" accept="image/*" class="form-control" style="padding:8px;"></div>
+                        <div class="form-group"><label data-i18n="settings_display_name">Tên hiển thị (Display Name):</label><input type="text" id="editDisplayNameInput" class="form-control" placeholder="Tên hiển thị tự do..."></div>
+                        <div class="form-group"><label data-i18n="settings_location">Tỉnh thành / Quốc gia:</label><input type="text" id="editLocationInput" class="form-control" placeholder="Ví dụ: Hà Nội, VN"></div>
+                        <div class="form-group"><label data-i18n="settings_status">Trạng thái (Status):</label><input type="text" id="editStatusInput" class="form-control" placeholder="Đang làm game..."></div>
+                        <div class="form-group"><label data-i18n="settings_bio">Giới thiệu (Bio):</label><textarea id="editBioInput" class="form-control" rows="3"></textarea></div>
+                        <div class="form-group"><label data-i18n="settings_banner_proj">Dự án làm Banner nổi bật:</label><select id="editFeaturedProjSelect" class="form-control"><option value="">-- Không chọn --</option></select></div>
+                        <button type="button" onclick="saveProfileInfoBtn()" class="btn btn-primary" id="btnSaveProfSubmit" style="width: 100%; justify-content:center;" data-i18n="settings_save">Lưu thông tin</button>
                     </form>
                 </div>
 
                 <!-- Các Liên Kết & Cài Đặt Khác -->
                 <div style="width:300px; background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #eef2f6;">
-                    <h4 style="margin-bottom:15px;">Xác thực & Liên kết</h4>
+                    <h4 style="margin-bottom:15px; margin-top:30px;">Tùy chọn</h4>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Engine Lập trình:</label>
                     <div id="scratchLinkStatus" style="margin-bottom:15px;">
                         <div style="font-size:0.85rem; color:#666; margin-bottom:6px;">Tài khoản Scratch:</div>
                         <!-- Sẽ render bằng JS -->
@@ -534,10 +536,10 @@
                     </div>
 
                     <div style="margin-top:30px; font-size:0.85rem; color:#888;">
-                        <a href="https://studiodanv.blogspot.com/2026/09/DANVworkshop-TOS.html" target="_blank" style="color:var(--primary); text-decoration:none; display:block; margin-bottom:6px;">Điều khoản sử dụng (TOS)</a>
-                        <a href="https://studiodanv.blogspot.com/2026/09/DANVworkshop-Privacy-Policy.html" target="_blank" style="color:var(--primary); text-decoration:none; display:block; margin-bottom:15px;">Chính sách bảo mật</a>
-                        <div style="border-top:1px solid #ddd; padding-top:10px; margin-bottom:20px;">Hỗ trợ: <a href="mailto:studiodanv@gmail.com" style="color:#333; font-weight:bold;">studiodanv@gmail.com</a></div>
-                        <button class="btn btn-danger" onclick="logout()" style="width: 100%; justify-content: center;"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất tài khoản</button>
+                        <a href="https://studiodanv.blogspot.com/2026/09/DANVworkshop-TOS.html" target="_blank" style="color:var(--primary); text-decoration:none; display:block; margin-bottom:6px;" data-i18n="settings_tos">Điều khoản sử dụng (TOS)</a>
+                        <a href="https://studiodanv.blogspot.com/2026/09/DANVworkshop-Privacy-Policy.html" target="_blank" style="color:var(--primary); text-decoration:none; display:block; margin-bottom:15px;" data-i18n="settings_privacy">Chính sách bảo mật</a>
+                        <div style="border-top:1px solid #ddd; padding-top:10px; margin-bottom:20px;"><span data-i18n="settings_support">Hỗ trợ:</span> <a href="mailto:studiodanv@gmail.com" style="color:#333; font-weight:bold;">studiodanv@gmail.com</a></div>
+                        <button class="btn btn-danger" onclick="logout()" style="width: 100%; justify-content: center;"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="settings_logout">Đăng xuất tài khoản</span></button>
                     </div>
                 </div>
             </div>
