@@ -1,5 +1,5 @@
 {
-  "brand_title": "DANVworkshop - ACGN Coding Community",
+  "brand_title": "DANVworkshop - ACGN Programming Community",
   "brand_logo": "https://i.ibb.co/9mhxsQM2/ezgif-1b203d38782d98f9.png",
   
   "nav_explore": "Explore",
@@ -7,12 +7,12 @@
   "nav_upload": "Upload",
   "nav_login": "Log In",
 
-  "home_featured": "Featured Works",
+  "home_featured": "Featured Projects",
   "badge_private": "Private",
   "author_by": "By: {author}",
   
   "proj_source": "Source Code",
-  "proj_tab_info": "Details",
+  "proj_tab_info": "Info",
   "proj_tab_comments": "Comments",
   "proj_instructions": "Instructions",
   "proj_credits": "Credits",
@@ -26,25 +26,25 @@
   "prof_projects": "Projects",
   "prof_liked": "Liked",
   "prof_activities": "Activity",
-  "prof_comments": "Messages",
+  "prof_comments": "Profile Comments",
   "prof_btn_follow": "Follow",
   "prof_btn_following": "Following",
-  "prof_btn_edit": "Edit",
-  "prof_no_bio": "No bio added yet.",
-  "prof_empty_list": "Empty list",
+  "prof_btn_edit": "Edit Profile",
+  "prof_no_bio": "No bio yet.",
+  "prof_empty_list": "List is empty",
   
-  "upload_title": "Publish New Work",
-  "upload_thumb_label": "Project Cover Image",
-  "upload_thumb_hint": "Click to select or drag image here",
-  "upload_file_label": "Scratch File .sb3 *",
+  "upload_title": "Publish Project",
+  "upload_thumb_label": "Project Thumbnail",
+  "upload_thumb_hint": "Click or drag image here",
+  "upload_file_label": ".sb3 Project File *",
   "upload_name_label": "Project Title *",
   "upload_vis_label": "Visibility",
-  "upload_vis_public": "Public (Visible to everyone)",
-  "upload_vis_private": "Private (Only me)",
+  "upload_vis_public": "Public",
+  "upload_vis_private": "Private",
   "upload_submit": "Publish to Platform",
   
   "settings_title": "Account Settings",
-  "settings_lang": "Language [Language]:",
+  "settings_lang": "Language:",
   "settings_save": "Save Changes",
   "settings_logout": "Log Out",
 
@@ -63,15 +63,16 @@
   "settings_status": "Status Message:",
   "settings_bio": "Bio:",
   "settings_banner_proj": "Featured Banner Project:",
-  "settings_auth_link": "Authentication & Links",
-  "settings_options": "Preferences",
+  "settings_auth_link": "Linked Accounts",
+  "settings_options": "Options",
   "settings_engine": "Coding Engine:",
   "settings_tos": "Terms of Service",
   "settings_privacy": "Privacy Policy",
   "settings_support": "Support:",
   
   "create_title": "Editor Opened!",
-  "create_desc": "We opened {engine} in a new tab so you can unleash your creativity.",
+  "create_desc_start": "We opened",
+  "create_desc_end": "in a new tab for you to unleash your creativity.",
   "create_btn_reopen": "Reopen Tab",
   "create_btn_home": "Back to Home",
 
@@ -84,20 +85,20 @@
 
   "auth_reg_title": "Register Account",
   "auth_reg_user": "Username:",
-  "auth_reg_email": "Valid Email:",
-  "auth_reg_btn_next": "Continue (Send Verification Code)",
+  "auth_reg_email": "Email:",
+  "auth_reg_btn_next": "Continue",
 
   "auth_otp_title": "Verify Email",
   "auth_otp_desc": "Please enter the 6-digit code sent to your email.",
   "auth_otp_btn": "Complete Registration",
 
   "proj_manage_title": "Manage Project",
-  "proj_manage_info_tab": "Info & Cover",
-  "proj_manage_thumb_new": "Change Cover Image",
-  "proj_manage_thumb_hint": "Supports JPG, PNG (16:9 ratio recommended).",
+  "proj_manage_info_tab": "Info & Thumbnail",
+  "proj_manage_thumb_new": "Change Thumbnail",
+  "proj_manage_thumb_hint": "Supports JPG, PNG (16:9 ratio).",
   "proj_manage_btn_save": "Save Changes",
-  "proj_manage_update_tab": "Update Game Version (.sb3)",
-  "proj_manage_update_hint": "Upload new Scratch file. The current version will be automatically saved to history below.",
+  "proj_manage_update_tab": "Upload New Build",
+  "proj_manage_update_hint": "Upload a new .sb3 file. The current version will automatically be saved to history.",
   "proj_manage_btn_update": "Upload Update",
   "proj_manage_history_tab": "Version History",
 
@@ -106,9 +107,12 @@
   "report_btn": "Submit Report",
 
   "comment_replying": "Replying to",
-  "comment_attached_img": "Attached image",
+  "comment_attached_img": "Image attached",
   "comment_login_prompt": "Log in to comment",
-  "comment_send": "Send Comment",
+  "comment_send": "Post Comment",
   "comment_attach_btn": "Attach Image",
-  "notif_load_more": "Load older messages"
+  "notif_load_more": "Load older messages",
+
+  "notif_project": "projects",
+  "notif_profile": "profile"
 }

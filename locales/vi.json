@@ -111,5 +111,8 @@
   "comment_login_prompt": "Đăng nhập để bình luận",
   "comment_send": "Gửi bình luận",
   "comment_attach_btn": "Đính kèm ảnh",
-  "notif_load_more": "Xem thêm tin nhắn cũ"
+  "notif_load_more": "Xem thêm tin nhắn cũ",
+
+  "notif_project": "dự án",
+  "notif_profile": "thông tin cá nhân"
 }

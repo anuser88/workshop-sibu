@@ -447,7 +447,7 @@
     <!-- TRANG 4: UPLOAD -->
     <div id="uploadView" class="page-view" style="max-width: 900px;">
         <div class="upload-card-wrapper">
-            <h2 style="color:#111; border-bottom:1px solid #eee; padding-bottom:15px;"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--primary);"></i><span data-i18n="upload_title">Xuất bản tác phẩm mới</span></h2>
+            <h2 style="color:#111; border-bottom:1px solid #eee; padding-bottom:15px;"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--primary);"></i> <span data-i18n="upload_title">Xuất bản tác phẩm mới</span></h2>
             <form id="uploadFormDOM">
                 <div class="upload-grid">
                     <div>
@@ -1661,66 +1661,66 @@
 
         // TẠO GIAO DIỆN BONG BÓNG CHAT GIỐNG SCRATCH (ĐÃ CÓ TỰ ĐỘNG CHUYỂN TAB COMMENTS)
         function formatScratchNotif(n) {
-            let senderLink = `<a href="#profile/${n.sender}" style="font-weight:bold; color:#575e75; text-decoration:none;">${n.sender}</a>`;
-            let mainText = escapeHtml(n.text);
-            let actionHtml = ''; let bubbleHtml = '';
+    let senderLink = `<a href="#profile/${n.sender}" style="font-weight:bold; color:#575e75; text-decoration:none;">${n.sender}</a>`;
+    let mainText = escapeHtml(n.text || "");
+    let actionHtml = ''; let bubbleHtml = '';
 
-            // 1. CẢNH CÁO TỪ ADMIN VÀ HỆ THỐNG (Khung màu đỏ chữ trắng)
-            if (n.sender === "HỆ THỐNG" || mainText.includes("Cảnh cáo") || mainText.includes("bị gỡ")) {
-                actionHtml = `<div style="background: #ef4444; color: #fff; padding: 15px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(239,68,68,0.2); border: 2px solid #b91c1c;">
-                    <i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px; font-size:1.2rem;"></i> ${mainText}
-                </div>`;
-                return { actionHtml, bubbleHtml: '' };
-            }
+    // 1. CẢNH CÁO TỪ ADMIN VÀ HỆ THỐNG
+    if (n.sender === "HỆ THỐNG" || mainText.includes("Cảnh cáo") || mainText.includes("bị gỡ")) {
+        actionHtml = `<div style="background: #ef4444; color: #fff; padding: 15px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(239,68,68,0.2); border: 2px solid #b91c1c;">
+            <i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px; font-size:1.2rem;"></i> ${mainText}
+        </div>`;
+        return { actionHtml, bubbleHtml: '' };
+    }
 
-            // Tự động chèn lệnh mở tab Comments (?tab=comments) một cách cưỡng chế
-            let linkWithTab = n.link;
-            if (mainText.includes("bình luận") || mainText.includes("trả lời") || mainText.includes("nhắn")) {
-                if (!linkWithTab.includes('tab=comments')) {
-                    linkWithTab += linkWithTab.includes('?') ? '&tab=comments' : '?tab=comments';
-                }
-            }
-
-            let quoteMatch = mainText.match(/&quot;(.*?)&quot;/); 
-
-            // 2. BÌNH LUẬN CÓ BONG BÓNG + MÔ PHỎNG BOX TRẢ LỜI
-            if (quoteMatch && (mainText.includes("bình luận") || mainText.includes("trả lời") || mainText.includes("nhắn"))) {
-                let textBeforeQuote = mainText.split(':')[0] || mainText.split('&quot;')[0]; 
-                textBeforeQuote = textBeforeQuote.replace(n.sender, senderLink);
-                let targetText = n.link.includes('profile') ? t('notif_profile') : t('notif_project');
-                
-                actionHtml = `${textBeforeQuote} <a href="${linkWithTab}" style="font-weight:bold; color:#855cd6; text-decoration:none;">${targetText}</a>`;
-
-                bubbleHtml = `
-                    <div style="display:flex; align-items:flex-start; gap:15px; padding-left: 28px; margin-top: 10px;">
-                        <a href="#profile/${n.sender}"><img src="${getAvtUrl(n.senderAvt)}" style="width:48px; height:48px; border-radius:4px; border:1px solid #d9d9d9; object-fit:cover;"></a>
-                        <div style="flex:1; max-width: 600px;">
-                            <div style="background:#fff; border:1px solid #d9d9d9; border-radius:6px; padding:12px 18px; position:relative; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-                                <div style="position:absolute; left:-6px; top:15px; width:10px; height:10px; background:#fff; border-left:1px solid #d9d9d9; border-bottom:1px solid #d9d9d9; transform:rotate(45deg);"></div>
-                                <span style="color:#575e75; font-size:0.95rem;">${quoteMatch[1]}</span>
-                            </div>
-                            
-                            <!-- Box mô phỏng Reply -->
-                            <div style="margin-top: 10px; display:flex; gap:10px; align-items:center;">
-                                <input type="text" data-i18n-ph="proj_comment_ph" placeholder="${t('proj_comment_ph')}" style="flex:1; padding: 10px 15px; border-radius: 20px; border: 1px solid #d9d9d9; outline: none; background: #f9f9f9; font-size: 0.9rem; cursor:text;" onclick="location.hash='${linkWithTab}'">
-                                <button class="btn btn-primary" onclick="location.hash='${linkWithTab}'" style="border-radius: 20px; padding: 9px 20px;">${t('proj_reply')}</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // 3. CÁC THÔNG BÁO KHÁC (Thích, Theo dõi, v.v...)
-                actionHtml = mainText.replace(n.sender, senderLink);
-                const projRegex = /dự án\s+&quot;(.*?)&quot;/i;
-                
-                if (projRegex.test(actionHtml)) {
-                    actionHtml = actionHtml.replace(projRegex, `dự án <a href="${n.link}" style="font-weight:bold; color:#855cd6; text-decoration:none;">"$1"</a>`);
-                } else if (!actionHtml.includes('<a') && !actionHtml.includes('<div')) {
-                    actionHtml += ` <a href="${n.link}" style="font-weight:bold; color:#855cd6; text-decoration:none;">(Xem)</a>`;
-                }
-            }
-            return { actionHtml, bubbleHtml };
+    let linkWithTab = n.link || ""; // Đảm bảo link không bị undefined gây sập web
+    
+    // Tự động chèn lệnh mở tab Comments
+    if (mainText.includes("bình luận") || mainText.includes("trả lời") || mainText.includes("nhắn")) {
+        if (linkWithTab && !linkWithTab.includes('tab=comments')) {
+            linkWithTab += linkWithTab.includes('?') ? '&tab=comments' : '?tab=comments';
         }
+    }
+
+    let quoteMatch = mainText.match(/&quot;(.*?)&quot;/); 
+
+    // 2. BÌNH LUẬN CÓ BONG BÓNG + BOX TRẢ LỜI
+    if (quoteMatch && (mainText.includes("bình luận") || mainText.includes("trả lời") || mainText.includes("nhắn"))) {
+        let textBeforeQuote = mainText.split(':')[0] || mainText.split('&quot;')[0]; 
+        textBeforeQuote = textBeforeQuote.replace(n.sender, senderLink);
+        let targetText = linkWithTab.includes('profile') ? (t('notif_profile') || 'thông tin cá nhân') : (t('notif_project') || 'dự án');
+        
+        actionHtml = `${textBeforeQuote} <a href="${linkWithTab}" style="font-weight:bold; color:#855cd6; text-decoration:none;">${targetText}</a>`;
+
+        bubbleHtml = `
+            <div style="display:flex; align-items:flex-start; gap:15px; padding-left: 28px; margin-top: 10px;">
+                <a href="#profile/${n.sender}"><img src="${getAvtUrl(n.senderAvt)}" style="width:48px; height:48px; border-radius:4px; border:1px solid #d9d9d9; object-fit:cover;"></a>
+                <div style="flex:1; max-width: 600px;">
+                    <div style="background:#fff; border:1px solid #d9d9d9; border-radius:6px; padding:12px 18px; position:relative; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                        <div style="position:absolute; left:-6px; top:15px; width:10px; height:10px; background:#fff; border-left:1px solid #d9d9d9; border-bottom:1px solid #d9d9d9; transform:rotate(45deg);"></div>
+                        <span style="color:#575e75; font-size:0.95rem;">${quoteMatch[1]}</span>
+                    </div>
+                    
+                    <div style="margin-top: 10px; display:flex; gap:10px; align-items:center;">
+                        <input type="text" data-i18n-ph="proj_comment_ph" placeholder="${t('proj_comment_ph') || 'Viết bình luận...'}" style="flex:1; padding: 10px 15px; border-radius: 20px; border: 1px solid #d9d9d9; outline: none; background: #f9f9f9; font-size: 0.9rem; cursor:text;" onclick="location.hash='${linkWithTab}'">
+                        <button class="btn btn-primary" onclick="location.hash='${linkWithTab}'" style="border-radius: 20px; padding: 9px 20px;">${t('proj_reply') || 'Trả lời'}</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else {
+        // 3. CÁC THÔNG BÁO KHÁC
+        actionHtml = mainText.replace(n.sender, senderLink);
+        const projRegex = /dự án\s+&quot;(.*?)&quot;/i;
+        
+        if (projRegex.test(actionHtml)) {
+            actionHtml = actionHtml.replace(projRegex, `dự án <a href="${linkWithTab}" style="font-weight:bold; color:#855cd6; text-decoration:none;">"$1"</a>`);
+        } else if (!actionHtml.includes('<a') && !actionHtml.includes('<div')) {
+            actionHtml += ` <a href="${linkWithTab}" style="font-weight:bold; color:#855cd6; text-decoration:none;">(Xem)</a>`;
+        }
+    }
+    return { actionHtml, bubbleHtml };
+}
 
         // HÀM CLICK ĐÁNH DẤU ĐỌC TẤT CẢ
         async function markAllNotifsRead(event) {
@@ -1785,44 +1785,49 @@
 
         // HÀM RENDER TIN NHẮN & NÚT "XEM THÊM"
         function renderNotifList() {
-            const container = document.getElementById('notifPageList');
-            const notifs = window.cachedNotifs || [];
+    const container = document.getElementById('notifPageList');
+    let notifs = window.cachedNotifs;
+    
+    // Đảm bảo notifs luôn là một mảng, chống sập hàm slice
+    if (!Array.isArray(notifs)) notifs = [];
 
-            if (!notifs || notifs.length === 0) {
-                container.innerHTML = `<div style="padding:40px; text-align:center; color:#575e75; font-size:1.1rem;">${t('notif_empty')}</div>`;
-                return;
-            }
+    if (notifs.length === 0) {
+        container.innerHTML = `<div style="padding:40px; text-align:center; color:#575e75; font-size:1.1rem;">${t('notif_empty')}</div>`;
+        return;
+    }
 
-            // Chỉ cắt đúng số lượng cho phép (Mặc định 50)
-            const visibleNotifs = notifs.slice(0, notifDisplayLimit);
+    const visibleNotifs = notifs.slice(0, notifDisplayLimit);
 
-            let html = visibleNotifs.map(n => {
-                const { actionHtml, bubbleHtml } = formatScratchNotif(n);
-                // Ẩn icon chuông nếu là Cảnh cáo khung đỏ cho đẹp
-                const isWarning = actionHtml.includes('background: #ef4444');
-                return `
-                    <div style="padding: 20px 25px; border-bottom: 1px solid #d9d9d9; background: ${n.read ? '#ffffff' : '#e6f0ff'};">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: ${bubbleHtml ? '10px' : '0'};">
-                            <div style="display:flex; align-items:center; gap:10px; flex:1;">
-                                ${isWarning ? '' : getNotifIcon(n.text)}
-                                <span style="font-size:1rem; color:#575e75; line-height:1.5; flex:1;">${actionHtml}</span>
-                            </div>
-                            <span style="font-size:0.85rem; color:#858585; white-space:nowrap; margin-left:15px; margin-top:2px;">${timeAgo(n.time)}</span>
+    let html = visibleNotifs.map(n => {
+        try { // Bọc try...catch để tin nhắn này lỗi thì tin nhắn khác vẫn chạy
+            const { actionHtml, bubbleHtml } = formatScratchNotif(n);
+            const isWarning = actionHtml.includes('background: #ef4444');
+            return `
+                <div style="padding: 20px 25px; border-bottom: 1px solid #d9d9d9; background: ${n.read ? '#ffffff' : '#e6f0ff'};">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: ${bubbleHtml ? '10px' : '0'};">
+                        <div style="display:flex; align-items:center; gap:10px; flex:1;">
+                            ${isWarning ? '' : getNotifIcon(n.text || "")}
+                            <span style="font-size:1rem; color:#575e75; line-height:1.5; flex:1;">${actionHtml}</span>
                         </div>
-                        ${bubbleHtml}
+                        <span style="font-size:0.85rem; color:#858585; white-space:nowrap; margin-left:15px; margin-top:2px;">${timeAgo(n.time)}</span>
                     </div>
-                `;
-            }).join('');
-
-            // Nếu số tin nhắn gốc > số đang hiển thị, hiện nút "Xem thêm"
-            if (notifs.length > notifDisplayLimit) {
-                html += `
-                <div style="padding: 30px; text-align: center;">
-                    <button class="btn btn-primary" style="padding: 10px 30px; border-radius: 20px; font-weight: bold;" onclick="loadMoreNotifs()">${t('notif_load_more')}</button>
-                </div>`;
-            }
-            container.innerHTML = html;
+                    ${bubbleHtml}
+                </div>
+            `;
+        } catch(e) {
+            console.error("Bỏ qua 1 tin nhắn lỗi:", e);
+            return "";
         }
+    }).join('');
+
+    if (notifs.length > notifDisplayLimit) {
+        html += `
+        <div style="padding: 30px; text-align: center;">
+            <button class="btn btn-primary" style="padding: 10px 30px; border-radius: 20px; font-weight: bold;" onclick="loadMoreNotifs()">${t('notif_load_more')}</button>
+        </div>`;
+    }
+    container.innerHTML = html;
+}
 
         // HÀM KÍCH HOẠT NÚT XEM THÊM
         function loadMoreNotifs() {
