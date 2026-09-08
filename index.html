@@ -760,6 +760,31 @@
             </div>
         </div>
     </div>
+    <!-- MODAL PHẢN HỒI ĐƠN BÁO CÁO (ADMIN) -->
+    <div class="modal-overlay" id="adminResolveModal">
+        <div class="modal" style="max-width: 460px;">
+            <div class="modal-header">
+                <span><i class="fa-solid fa-clipboard-check" style="color:var(--primary);"></i> [Admin] Đóng Đơn & Phản Hồi</span>
+                <button class="btn-close" onclick="closeModal('adminResolveModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:0.9rem; color:#64748b; margin-bottom:12px;">
+                    Bạn đang đóng đơn báo cáo này. Bạn có thể gửi kèm một thông báo phản hồi tới người đã báo cáo (<b id="adminResolveReporterName" style="color:#0f172a;"></b>).
+                </p>
+                <div class="form-group">
+                    <label style="font-size:0.85rem; font-weight:bold; color:#333;">Nội dung phản hồi (Không bắt buộc):</label>
+                    <textarea id="adminResolveFeedbackInput" class="form-control" rows="3" placeholder="Ví dụ: Cảm ơn bạn đã báo cáo. Chúng tôi đã xử lý nội dung vi phạm này."></textarea>
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px;">
+                    <button type="button" class="btn" onclick="closeModal('adminResolveModal')">Hủy</button>
+                    <button type="button" id="btnSubmitResolveReport" onclick="submitResolveAdminReport()" class="btn btn-primary">
+                        <i class="fa-solid fa-check"></i> Xác nhận & Đóng đơn
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="adminWarnModal">
         <div class="modal" style="max-width:400px;">
             <div class="modal-header"><span>[Admin] Cảnh cáo User</span><button class="btn-close" onclick="closeModal('adminWarnModal')">&times;</button></div>
@@ -1782,18 +1807,53 @@
                         }
                         ${r.targetType === 'project' ? `<button class="btn btn-danger" style="font-size:0.85rem; padding:6px 12px;" onclick="currentProj={fileId:'${r.targetId}', author:''}; openAdminPrivateModal();"><i class="fa-solid fa-shield-halved"></i> Gỡ dự án</button>` : ''}
                         ${r.targetType === 'user' || r.targetType === 'profile' ? `<button class="btn btn-danger" style="font-size:0.85rem; padding:6px 12px;" onclick="viewingProfileUser='${r.targetId}'; openAdminWarnModal();"><i class="fa-solid fa-triangle-exclamation"></i> Cảnh cáo</button>` : ''}
-                        <button class="btn" style="font-size:0.85rem; padding:6px 12px;" onclick="resolveAdminReport(${r.rowIndex})"><i class="fa-solid fa-check"></i> Đánh dấu xong</button>
+                        <button class="btn" style="font-size:0.85rem; padding:6px 12px;" onclick="openResolveAdminModal(${r.rowIndex}, '${escapeHtml(r.reporter)}')"><i class="fa-solid fa-check"></i> Đánh dấu xong</button>
                     </div>
                 </div>
             `;}).join('');
         }
 
-        async function resolveAdminReport(rowIndex) {
-            const btnHtml = event.currentTarget.innerHTML;
-            event.currentTarget.innerHTML = "Đang xử lý..."; event.currentTarget.disabled = true;
-            const res = await apiFetch(`/api/admin/action`, { method: 'POST', body: JSON.stringify({ action: "resolve_report", payload: { rowIndex } }) });
-            if(res && res.success) { showToast("Đã đóng báo cáo!", "success"); loadAdminReports(); }
-            else { event.currentTarget.innerHTML = btnHtml; event.currentTarget.disabled = false; }
+        let activeResolveData = { rowIndex: null, reporter: null };
+
+        // Mở popup nhập lời nhắn phản hồi
+        function openResolveAdminModal(rowIndex, reporter) {
+            activeResolveData = { rowIndex, reporter };
+            document.getElementById('adminResolveReporterName').innerText = `@${reporter}`;
+            document.getElementById('adminResolveFeedbackInput').value = "";
+            openModal('adminResolveModal');
+        }
+
+        // Gửi kết quả xử lý và thông báo phản hồi lên máy chủ
+        async function submitResolveAdminReport() {
+            const btn = document.getElementById('btnSubmitResolveReport');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý...';
+            btn.disabled = true;
+
+            const feedback = document.getElementById('adminResolveFeedbackInput').value.trim();
+
+            const res = await apiFetch(`/api/admin/action`, { 
+                method: 'POST', 
+                body: JSON.stringify({ 
+                    action: "resolve_report", 
+                    payload: { 
+                        rowIndex: activeResolveData.rowIndex, 
+                        reporter: activeResolveData.reporter, 
+                        feedback: feedback || null 
+                    } 
+                }) 
+            });
+
+            if (res && res.success) {
+                showToast("Đã đóng đơn tố cáo thành công!", "success");
+                closeModal('adminResolveModal');
+                loadAdminReports(); // Tải lại danh sách báo cáo
+            } else {
+                showToast("Có lỗi xảy ra khi xử lý!", "error");
+            }
+
+            btn.innerHTML = originalText;
+            btn.disabled = false;
         }
 
         function openAdminWarnModal() { openModal('adminWarnModal'); }
