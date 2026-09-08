@@ -55,4 +55,18 @@
   "toast_success": "Thành công!",
   "toast_error": "Có lỗi xảy ra",
   "time_just_now": "vừa xong"
+
+  "settings_public_profile": "Hồ sơ công khai",
+  "settings_avatar": "Đổi Ảnh đại diện (Tối đa 5MB):",
+  "settings_display_name": "Tên hiển thị (Display Name):",
+  "settings_location": "Tỉnh thành / Quốc gia:",
+  "settings_status": "Trạng thái (Status):",
+  "settings_bio": "Giới thiệu (Bio):",
+  "settings_banner_proj": "Dự án làm Banner nổi bật:",
+  "settings_auth_link": "Xác thực & Liên kết",
+  "settings_options": "Tùy chọn",
+  "settings_engine": "Engine Lập trình:",
+  "settings_tos": "Điều khoản sử dụng (TOS)",
+  "settings_privacy": "Chính sách bảo mật",
+  "settings_support": "Hỗ trợ:"
 }
