@@ -1140,7 +1140,7 @@
                                 </div>
                                 <div style="margin-top:4px;">
                                     ${currentUser ? `<button class="btn-action-cmt reply" onclick="startReply('${type}', '${root.id}', '${root.author}')">${t('proj_reply')}</button>` : ''}
-                                    ${currentUser ? `<button class="btn-action-cmt report" onclick="openReportModal('comment', '${root.id}')"><i class="fa-solid fa-flag"></i></button>` : ''}
+                                    ${currentUser ? `<button class="btn-action-cmt report" onclick="openReportModal('comment', '${root.id}', '${type}')"><i class="fa-solid fa-flag"></i></button>` : ''}
                                     ${canDelete(root) ? `<button class="btn-action-cmt delete" onclick="deleteComment('${type}', '${root.id}')">${t('proj_delete')}</button>` : ''}
                                 </div>
                             </div>
@@ -1163,7 +1163,7 @@
                                             </div>
                                             <div style="margin-top:2px;">
                                                 ${currentUser ? `<button class="btn-action-cmt reply" onclick="startReply('${type}', '${root.id}', '${rep.author}')">${t('proj_reply')}</button>` : ''}
-                                                ${currentUser ? `<button class="btn-action-cmt report" onclick="openReportModal('comment', '${rep.id}')"><i class="fa-solid fa-flag"></i></button>` : ''}
+                                                ${currentUser ? `<button class="btn-action-cmt report" onclick="openReportModal('comment', '${rep.id}', '${type}')"><i class="fa-solid fa-flag"></i></button>` : ''}
                                                 ${canDelete(rep) ? `<button class="btn-action-cmt delete" onclick="deleteComment('${type}', '${rep.id}')">${t('proj_delete')}</button>` : ''}
                                             </div>
                                         </div>
@@ -1624,15 +1624,22 @@
             if(box) box.style.display = val === 'other' ? 'block' : 'none';
         }
 
-        function openReportModal(type, id = null) {
+        function openReportModal(type, id = null, contextType = null) {
             if(!currentUser) return openModal('loginModal');
             reportTarget.type = type;
             
-            // ƯU TIÊN LẤY MÃ DỰ ÁN NGẮN (Short ID) HOẶC USERNAME CHÍNH CHỦ
             if (type === 'project') {
                 reportTarget.id = (currentProj && (currentProj.projectId || currentProj.fileId)) || id;
             } else if (type === 'user' || type === 'profile') {
                 reportTarget.id = id || viewingProfileUser;
+            } else if (type === 'comment') {
+                // Định vị rõ bình luận thuộc Dự án nào hay Tường cá nhân nào
+                if (contextType === 'proj' || currentProj) {
+                    const pId = currentProj ? (currentProj.projectId || currentProj.fileId) : 'unknown';
+                    reportTarget.id = `proj:${pId}:${id}`;
+                } else {
+                    reportTarget.id = `prof:${viewingProfileUser}:${id}`;
+                }
             } else {
                 reportTarget.id = id;
             }
@@ -1692,6 +1699,41 @@
             loadAdminReports();
         }
 
+        // Hàm hỗ trợ tự động tìm vị trí của Comment (Kể cả dữ liệu cũ trong Sheet)
+        function resolveReportTargetLink(r) {
+            if (r.targetType === 'project') {
+                return { url: `#project/${r.targetId}`, label: 'Kiểm tra dự án', valid: true };
+            }
+            if (r.targetType === 'user' || r.targetType === 'profile') {
+                return { url: `https://danvpr.github.io/workshop/#profile/${encodeURIComponent(r.targetId)}`, label: 'Xem trang cá nhân', valid: true };
+            }
+            if (r.targetType === 'comment') {
+                const targetStr = String(r.targetId);
+
+                // Dữ liệu mới dạng proj:projectId:commentId
+                if (targetStr.startsWith('proj:')) {
+                    const parts = targetStr.split(':');
+                    return { url: `#project/${parts[1]}?c=${parts[2]}`, label: 'Đến vị trí bình luận', valid: true };
+                }
+                // Dữ liệu mới dạng prof:username:commentId
+                if (targetStr.startsWith('prof:')) {
+                    const parts = targetStr.split(':');
+                    return { url: `https://danvpr.github.io/workshop/#profile/${parts[1]}?c=${parts[2]}`, label: 'Đến bình luận trên hồ sơ', valid: true };
+                }
+
+                // TỰ ĐỘNG DÒ TÌM CHO CÁC MÃ CŨ (Ví dụ: 1788844522284 trong Sheet)
+                for (const p of allProjects) {
+                    if (p.comments && p.comments.some(c => String(c.id) === targetStr)) {
+                        return { url: `#project/${p.projectId || p.fileId}?c=${targetStr}`, label: `Xem bình luận ở "${escapeHtml(p.title)}"`, valid: true };
+                    }
+                }
+
+                // Nếu là bình luận ở profile cũ hoặc đã bị xóa
+                return { url: 'javascript:void(0)', label: 'Bình luận không còn tồn tại hoặc ở hồ sơ', valid: false };
+            }
+            return { url: '#home', label: 'Xem', valid: true };
+        }
+
         async function loadAdminReports() {
             const container = document.getElementById('adminReportsList');
             container.innerHTML = '<div style="text-align:center; padding: 30px;"><i class="fa-solid fa-spinner fa-spin" style="font-size:2rem; color:var(--primary);"></i></div>';
@@ -1709,10 +1751,7 @@
             }
 
             container.innerHTML = reports.map(r => {
-                // Tạo liên kết chuẩn xác theo yêu cầu
-                const targetLink = (r.targetType === 'user' || r.targetType === 'profile') 
-                    ? `https://danvpr.github.io/workshop/#profile/${encodeURIComponent(r.targetId)}`
-                    : `#project/${r.targetId}`;
+                const targetInfo = resolveReportTargetLink(r);
 
                 return `
                 <div style="background: #fff; border: 1px solid #e2e8f0; border-left: 4px solid #f5b041; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
@@ -1724,7 +1763,6 @@
                         <span style="font-size:0.8rem; background:#fee2e2; color:#ef4444; padding:3px 8px; border-radius:4px; font-weight:bold;">Loại: ${r.targetType.toUpperCase()}</span>
                     </div>
 
-                    <!-- KHẮC PHỤC TRÀN MÃ CODE TẠI ĐÂY -->
                     <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
                         <b style="font-size:0.95rem; color:#1e293b;">Mục tiêu:</b> 
                         <span style="color:var(--primary); font-family:monospace; background:#eef2f6; padding:3px 8px; border-radius:6px; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; border:1px solid #cbd5e1;" title="${escapeHtml(r.targetId)}">
@@ -1737,8 +1775,11 @@
                         <i class="fa-solid fa-triangle-exclamation" style="opacity:0.7; margin-right:5px;"></i> <b>Lý do:</b> ${escapeHtml(r.reason)}
                     </div>
 
-                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                        <a href="${targetLink}" target="_blank" class="btn btn-primary" style="font-size:0.85rem; padding:6px 14px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Kiểm tra mục tiêu</a>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                        ${targetInfo.valid 
+                            ? `<a href="${targetInfo.url}" target="_blank" class="btn btn-primary" style="font-size:0.85rem; padding:6px 14px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${targetInfo.label}</a>`
+                            : `<span style="font-size:0.85rem; color:#888; background:#f1f5f9; padding:6px 12px; border-radius:6px;"><i class="fa-solid fa-circle-question"></i> ${targetInfo.label}</span>`
+                        }
                         ${r.targetType === 'project' ? `<button class="btn btn-danger" style="font-size:0.85rem; padding:6px 12px;" onclick="currentProj={fileId:'${r.targetId}', author:''}; openAdminPrivateModal();"><i class="fa-solid fa-shield-halved"></i> Gỡ dự án</button>` : ''}
                         ${r.targetType === 'user' || r.targetType === 'profile' ? `<button class="btn btn-danger" style="font-size:0.85rem; padding:6px 12px;" onclick="viewingProfileUser='${r.targetId}'; openAdminWarnModal();"><i class="fa-solid fa-triangle-exclamation"></i> Cảnh cáo</button>` : ''}
                         <button class="btn" style="font-size:0.85rem; padding:6px 12px;" onclick="resolveAdminReport(${r.rowIndex})"><i class="fa-solid fa-check"></i> Đánh dấu xong</button>
