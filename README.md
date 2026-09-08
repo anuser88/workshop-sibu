@@ -1,2 +1,2 @@
-# workshop
-Make and Share!
+# workshop-sibu
+Shake and Mare!
