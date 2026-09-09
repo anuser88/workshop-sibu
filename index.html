@@ -974,7 +974,6 @@
                 const adminIcon = currentUser.role === 'admin' ? `<a href="#admin" style="color:#f5b041; margin-right:15px; font-weight:bold; text-decoration:none; display:flex; align-items:center; gap:6px;"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_admin">Admin Panel</span></a>` : '';
                 nav.innerHTML = `
                     <div style="display:flex; align-items:center; gap:15px;">
-                        ${adminIcon}
                         <a href="#notifications" style="position:relative; display:inline-flex; align-items:center; justify-content:center; padding: 6px; border-radius: 8px; transition: 0.2s; text-decoration:none;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='transparent'">
                             <img src="https://scratch.mit.edu/images/nav-notifications.png" style="height: 22px; opacity: 0.9;">
                             <span class="notif-badge" id="notifBadge" style="display:none; right: -6px; top: -4px; z-index: 10; min-width: 18px; text-align: center;">0</span>
