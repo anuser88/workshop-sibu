@@ -949,6 +949,7 @@
         window.addEventListener('hashchange', handleRouting);
         async function handleRouting() {
             if (updateUrlSibu) history.replaceState(null, "", updateUrlSibu);
+            updateUrlSibu = null;
             const fullHash = window.location.hash || '#home'; 
             const hash = fullHash.split('?')[0];
             const urlParams = new URLSearchParams(window.location.search);
