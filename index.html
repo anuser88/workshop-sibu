@@ -2582,7 +2582,8 @@
 
             container.innerHTML = visibleAssets.map(a => {
                 const fileExt = a.fileType.toLowerCase();
-                const fileUrl = `${WORKER_URL}/api/project/${a.fileId}`;
+                // Bổ sung ?ext= vào URL để Backend nhận diện định dạng chuẩn
+                const fileUrl = `${WORKER_URL}/api/project/${a.fileId}?ext=${fileExt}`;
                 
                 let previewHtml = `<i class="fa-solid fa-file" style="font-size:4rem; color:#cbd5e1;"></i>`;
                 if (['png','jpg','jpeg','gif','webp','svg'].includes(fileExt)) {
@@ -2660,13 +2661,18 @@
             const CHUNK_SIZE = 18 * 1024 * 1024;
             const totalChunks = Math.ceil(fileInput.size / CHUNK_SIZE);
             let uploadedIds = [];
+            
+            // Lấy đuôi file
+            const fileExt = fileInput.name.split('.').pop();
 
             try {
+                //
                 for (let i = 0; i < totalChunks; i++) {
                     btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang tải lên: Phần ${i + 1}/${totalChunks}...`;
                     const chunk = fileInput.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
                     const chunkForm = new FormData();
-                    chunkForm.append("file", chunk, `asset_part_${i}`);
+                    // 
+                    chunkForm.append("file", chunk, `asset_part_${i}.${fileExt}`);
                     chunkForm.append("username", currentUser.username);
                     chunkForm.append("sessionToken", currentUser.sessionToken);
 
