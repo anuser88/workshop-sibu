@@ -975,12 +975,13 @@
                 nav.innerHTML = `
                     <div style="display:flex; align-items:center; gap:15px;">
                         <a href="#notifications" style="position:relative; display:inline-flex; align-items:center; justify-content:center; padding: 6px; border-radius: 8px; transition: 0.2s; text-decoration:none;" onmouseover="this.style.background='#333'" onmouseout="this.style.background='transparent'">
+                        ${adminIcon}
                             <img src="https://scratch.mit.edu/images/nav-notifications.png" style="height: 22px; opacity: 0.9;">
                             <span class="notif-badge" id="notifBadge" style="display:none; right: -6px; top: -4px; z-index: 10; min-width: 18px; text-align: center;">0</span>
                         </a>
                     </div>
-                    <a href="#upload" class="btn btn-primary"><i class="fa-solid fa-cloud-arrow-up"></i> ${t('nav_upload')}</a>
-                    <a href="#settings" class="btn" style="padding:8px; border-radius:50%;" title="${t('settings_options')}"><i class="fa-solid fa-gear"></i></a>
+                    <a href="#upload" class="btn btn-primary"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</a>
+                    <a href="#settings" class="btn" style="padding:8px; border-radius:50%;" title="Settings"><i class="fa-solid fa-gear"></i></a>
                     <a href="#profile/${currentUser.username}" class="nav-user-pill"><img src="${getAvtUrl(currentUser.avt)}" class="nav-user-avt" onerror="this.src='${DEFAULT_AVATAR}'"><span>${escapeHtml(currentUser.username)}</span></a>
                 `;
                 fetchNotifications();
