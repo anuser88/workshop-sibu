@@ -1328,7 +1328,7 @@
                 }
             }
 
-            const userProjs = allProjects.filter(p => p.author.toLowerCase() === username.toLowerCase() && (p.visibility !== 'private' || (currentUser && currentUser.username.toLowerCase()===username.toLowerCase())));
+            const userProjs = allProjects.filter(p => p.author.toLowerCase() === username.toLowerCase());
             
             const statProj = document.getElementById('statProjectCount'); if(statProj) statProj.innerText = userProjs.length;
             const statLike = document.getElementById('statLikeCount'); if(statLike) statLike.innerText = userProjs.reduce((acc, curr) => acc + (curr.likes ? curr.likes.length : 0), 0);
