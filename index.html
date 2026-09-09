@@ -828,24 +828,24 @@
     <!-- MODAL TỐ CÁO -->
     <div class="modal-overlay" id="reportModal">
         <div class="modal" style="max-width:420px;">
-            <div class="modal-header"><span>Tố cáo Vi phạm</span><button class="btn-close" onclick="closeModal('reportModal')">&times;</button></div>
+            <div class="modal-header"><span><i class="fa-solid fa-flag"></i> Tố cáo Vi phạm</span><button class="btn-close" onclick="closeModal('reportModal')">&times;</button></div>
             <div class="modal-body">
                 <form onsubmit="handleReportSubmit(event)">
                     <div class="form-group">
-                        <label>Lý do Tố cáo:</label>
-                        <select id="reportReason" class="form-control" onchange="toggleReportOtherReason(this.value)">
+                        <label>Phân loại vi phạm:</label>
+                        <select id="reportReason" class="form-control">
                             <option value="Spam / Quảng cáo rác">Spam / Quảng cáo rác</option>
                             <option value="Ngôn từ đả kích, xúc phạm">Ngôn từ đả kích, xúc phạm</option>
-                            <option value="Vi phạm bản quyền (Re-up không ghi nguồn)">Vi phạm bản quyền (Re-up không ghi nguồn)</option>
+                            <option value="Vi phạm bản quyền">Vi phạm bản quyền (Không ghi nguồn)</option>
                             <option value="Nội dung không phù hợp">Nội dung đồi trụy / Không phù hợp</option>
-                            <option value="other">Khác (Nhập lý do chi tiết)...</option>
+                            <option value="Khác">Lý do khác...</option>
                         </select>
                     </div>
-                    <div class="form-group" id="reportOtherGroup" style="display:none;">
+                    <div class="form-group" id="reportOtherGroup">
                         <label>Mô tả chi tiết vi phạm *:</label>
-                        <textarea id="reportReasonOther" class="form-control" rows="3" placeholder="Nhập lý do cụ thể để Admin kiểm tra..."></textarea>
+                        <textarea id="reportReasonOther" class="form-control" rows="3" placeholder="Bắt buộc nhập chi tiết để Quản trị viên xử lý..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-danger" style="width:100%; justify-content:center; margin-top:10px;"><i class="fa-solid fa-flag"></i> Gửi Tố cáo</button>
+                    <button type="submit" class="btn btn-danger" style="width:100%; justify-content:center; margin-top:10px;"><i class="fa-solid fa-paper-plane"></i> Gửi Tố cáo</button>
                 </form>
             </div>
         </div>
@@ -1844,11 +1844,6 @@
         }
 
         // ================= REPORT & ADMIN =================
-        function toggleReportOtherReason(val) {
-            const box = document.getElementById('reportOtherGroup');
-            if(box) box.style.display = val === 'other' ? 'block' : 'none';
-        }
-
         function openReportModal(type, id = null, contextType = null) {
             if(!currentUser) return openModal('loginModal');
             reportTarget.type = type;
@@ -1858,7 +1853,6 @@
             } else if (type === 'user' || type === 'profile') {
                 reportTarget.id = id || viewingProfileUser;
             } else if (type === 'comment') {
-                // Định vị rõ bình luận thuộc Dự án nào hay Tường cá nhân nào
                 if (contextType === 'proj' || currentProj) {
                     const pId = currentProj ? (currentProj.projectId || currentProj.fileId) : 'unknown';
                     reportTarget.id = `proj:${pId}:${id}`;
@@ -1866,28 +1860,32 @@
                     reportTarget.id = `prof:${viewingProfileUser}:${id}`;
                 }
             } else {
+                // Nhận ID của asset hoặc loại khác
                 reportTarget.id = id;
             }
 
             // Đặt lại mặc định form
             document.getElementById('reportReason').value = "Spam / Quảng cáo rác";
             document.getElementById('reportReasonOther').value = "";
-            toggleReportOtherReason('Spam / Quảng cáo rác');
 
             openModal('reportModal');
         }
 
         async function handleReportSubmit(e) {
             e.preventDefault();
+            
             const reasonSelect = document.getElementById('reportReason').value;
-            let finalReason = reasonSelect;
+            const customDetail = document.getElementById('reportReasonOther').value.trim();
+            
+            if (!customDetail) return showToast("Vui lòng nhập mô tả chi tiết vi phạm!", "error");
+            
+            // Gộp cả 2 thông tin lại để gửi cho Admin
+            const finalReason = `[${reasonSelect}] - Chi tiết: ${customDetail}`;
 
-            // Xử lý khi chọn "Khác"
-            if (reasonSelect === 'other') {
-                const customDetail = document.getElementById('reportReasonOther').value.trim();
-                if (!customDetail) return showToast("Vui lòng nhập lý do cụ thể!", "error");
-                finalReason = `Khác: ${customDetail}`;
-            }
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang gửi...';
+            btn.disabled = true;
 
             const res = await apiFetch(`/api/report`, { 
                 method: 'POST', 
@@ -1902,6 +1900,9 @@
                 showToast("Cảm ơn bạn đã báo cáo. Quản trị viên sẽ xem xét.", "success"); 
                 closeModal('reportModal'); 
             }
+            
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
         }
 
         function openAdminPrivateModal() { openModal('adminPrivateModal'); }
@@ -1914,7 +1915,7 @@
 
         // ================= TRANG ADMIN PANEL =================
         async function openAdminPage() {
-            // Bảo vệ cấp 1 trên Frontend (Cấp 2 nằm ở Backend)
+            // 
             if(!currentUser || currentUser.role !== 'admin') {
                 showToast("Bạn không có quyền truy cập khu vực này!", "error");
                 location.hash = '#home';
@@ -1924,8 +1925,11 @@
             loadAdminReports();
         }
 
-        // Hàm hỗ trợ tự động tìm vị trí của Comment (Kể cả dữ liệu cũ trong Sheet)
+        // Hàm hỗ trợ tự động tìm vị trí của Báo cáo 
         function resolveReportTargetLink(r) {
+            if (r.targetType === 'asset') {
+                return { url: `#assets?search=${r.targetId}`, label: 'Xem tài nguyên', valid: true };
+            }
             if (r.targetType === 'project') {
                 return { url: `#project/${r.targetId}`, label: 'Kiểm tra dự án', valid: true };
             }
