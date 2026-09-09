@@ -961,7 +961,7 @@
                 await loadProjects(); 
             }
 
-            if (hash.startsWith('#project/')) openProjectPage(hash.replace('#project/', ''), urlParams);
+            if (hash.startsWith('#project/')) await openProjectPage(hash.replace('#project/', ''), urlParams);
             else if (hash.startsWith('#profile/')) openProfilePage(decodeURIComponent(hash.replace('#profile/', '')), urlParams);
             else if (hash === '#upload') openUploadPage();
             else if (hash === '#settings') openSettingsPage();
@@ -1027,7 +1027,7 @@
         }
 
         // ================= DỰ ÁN & BÌNH LUẬN =================
-        function openProjectPage(idParam, urlParams = null) {
+        async function openProjectPage(idParam, urlParams = null) {
             await loadProjects(params.get("username") || null);
             document.getElementById('projectView').style.display = 'block';
             const proj = allProjects.find(p => p.projectId === idParam || p.fileId === idParam);
@@ -2140,8 +2140,8 @@
 
         // Sửa hàm OpenProjectPage để điền Ngày tải lên và gán nút Cài đặt đúng hàm mới
         const originalOpenProjectPage = openProjectPage;
-        openProjectPage = function(idParam, urlParams = null) {
-            originalOpenProjectPage(idParam, urlParams);
+        openProjectPage = async function(idParam, urlParams = null) {
+            await originalOpenProjectPage(idParam, urlParams);
             if(currentProj) {
                 document.getElementById('projPageDate').innerText = currentProj.date || 'Đang cập nhật...';
                 const btnSettings = document.getElementById('btnProjSettings');
