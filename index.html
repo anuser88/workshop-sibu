@@ -996,7 +996,7 @@
         }
 
         async function loadProjects(username = null) {
-            username = username || currentUser?currentUser.username:'';
+            username = username || (currentUser?currentUser.username:'');
             try {
                 const res = await (await fetch(`${WORKER_URL}/api/projects?username=${encodeURIComponent(username)}`)).json();
                 if(!res.error) allProjects = res;
