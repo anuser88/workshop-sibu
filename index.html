@@ -830,6 +830,7 @@
         let expandedThreads = { proj: {}, prof: {} };
         let isPosting = { proj: false, prof: false };
         let reportTarget = { type: null, id: null };
+        let updateUrlSibu = null;
 
         // TOAST
         function showToast(msg, type = 'info') {
@@ -947,6 +948,7 @@
 
         window.addEventListener('hashchange', handleRouting);
         async function handleRouting() {
+            if (updateUrlSibu) history.replaceState(null, "", updateUrlSibu);
             const fullHash = window.location.hash || '#home'; 
             const [hash, queryStr] = fullHash.split('?');
             const urlParams = new URLSearchParams(queryStr || '');
@@ -957,9 +959,6 @@
             
             if (hash === '#home' || hash === '') {
                 await loadProjects(); 
-            }
-            if (hash.startsWith('#project/')) {
-                await loadProjects(params.get("username") || null);
             }
 
             if (hash.startsWith('#project/')) openProjectPage(hash.replace('#project/', ''), urlParams);
@@ -1004,8 +1003,12 @@
         function openPrj(id = "1001", username = null) {
             username = username || (currentUser?currentUser.username:'');
             const params = new URLSearchParams(window.location.search);
-            params.set("username", username);
-            location.hash=`#project/${id}`;
+            const url = new URL(location.href);
+            url.searchParams.set("username", username);
+            const bibu = `#project/${id}`;
+            url.hash = bibu;
+            updateUrlSibu = url;
+            location.hash = bibu;
         }
         
         function openHomePage() {
@@ -1025,6 +1028,7 @@
 
         // ================= DỰ ÁN & BÌNH LUẬN =================
         function openProjectPage(idParam, urlParams = null) {
+            await loadProjects(params.get("username") || null);
             document.getElementById('projectView').style.display = 'block';
             const proj = allProjects.find(p => p.projectId === idParam || p.fileId === idParam);
             if (!proj) { showToast("Không tìm thấy dự án hoặc bạn không có quyền", "error"); location.hash="#home"; return; }
