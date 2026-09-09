@@ -998,7 +998,7 @@
                     <div class="card-thumb">${p.thumbId ? `<img src="${WORKER_URL}/api/project/${p.thumbId}">` : `<i class="fa-solid fa-image" style="font-size:3rem; color:#ccc;"></i>`}</div>
                     <div class="card-body">
                         <div class="card-title">${escapeHtml(p.title)}</div>
-                        <div class="card-author">${t('author_by', { author: escapeHtml(p.author) })}</div>
+                        <div class="card-author">${escapeHtml(p.author)}</div>
                         <div style="margin-top: 10px; font-size: 0.85rem; color:var(--text-muted); display:flex; gap:15px;"><span><i class="fa-solid fa-heart" style="color:#ff4c4c"></i> ${p.likes ? p.likes.length : 0}</span><span><i class="fa-solid fa-star" style="color:#f5b041"></i> ${p.stars ? p.stars.length : 0}</span></div>
                     </div>
                 </div>
