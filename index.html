@@ -270,6 +270,50 @@
             
             .modal { max-width: 95vw; margin: 10px; }
         }
+        /* --- BẢN VÁ LỖI MÀU CHỮ (DARK/LIGHT MODE TEXT FIX) --- */
+        
+        /* 1. Ép các Class chứa Username, Title, Chữ đậm theo biến màu của Theme */
+        .comment-author-name, .follow-user-name, .card-title, .stat-badge b, 
+        .profile-username-title, .info-header, .form-group label, .comment-text-bubble, 
+        .info-body, .profile-bio-box p, .timeline-item b {
+            color: var(--text-title) !important;
+        }
+        
+        .card-author, .comment-time, .profile-location, .thumb-placeholder {
+            color: var(--text-muted) !important;
+        }
+
+        .act-btn { color: var(--text-muted); }
+        .act-btn:hover { color: var(--text-title); }
+        
+        .toast { background: var(--bg-panel) !important; color: var(--text-title) !important; }
+
+        /* 2. INLINE TRONG JAVASCRIPT PHẢI SÁNG LÊN KHI Ở DARK MODE */
+        /* Bao gồm các mã màu xám, đen, xanh đen được code cứng trong HTML/JS */
+        [data-theme="dark"] [style*="color: #111"], [data-theme="dark"] [style*="color:#111"],
+        [data-theme="dark"] [style*="color: #222"], [data-theme="dark"] [style*="color:#222"],
+        [data-theme="dark"] [style*="color: #333"], [data-theme="dark"] [style*="color:#333"],
+        [data-theme="dark"] [style*="color: #444"], [data-theme="dark"] [style*="color:#444"],
+        [data-theme="dark"] [style*="color: #555"], [data-theme="dark"] [style*="color:#555"],
+        [data-theme="dark"] [style*="color: #666"], [data-theme="dark"] [style*="color:#666"],
+        [data-theme="dark"] [style*="color: #0f172a"], [data-theme="dark"] [style*="color: #1e293b"],
+        [data-theme="dark"] [style*="color: #334155"], [data-theme="dark"] [style*="color: #475569"],
+        [data-theme="dark"] [style*="color: #575e75"] {
+            color: var(--text-main) !important;
+        }
+
+        /* 3. Sửa nền của hệ thống Thông báo (Notifications) trong Dark mode */
+        [data-theme="dark"] #notifPageList > div {
+            background-color: var(--bg-panel) !important;
+            border-color: var(--border-color) !important;
+        }
+        [data-theme="dark"] #notifPageList > div > div > div[style*="background:#fff"] {
+            background-color: var(--bg-secondary) !important;
+            border-color: var(--border-color) !important;
+        }
+        [data-theme="dark"] .notif-header { background: var(--bg-panel) !important; }
+        [data-theme="dark"] .notif-item { background: var(--bg-panel); color: var(--text-main); }
+        [data-theme="dark"] .notif-item:hover { background: var(--bg-secondary); }
     </style>
 </head>
 <body>
