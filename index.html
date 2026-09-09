@@ -120,15 +120,18 @@
         .btn-action-cmt.delete { color: #ff4c4c; opacity: 0.7;} .btn-action-cmt.delete:hover { opacity: 1; }
         .btn-action-cmt.report { color: #f5b041; opacity: 0.7;} .btn-action-cmt.report:hover { opacity: 1; }
         
-        .comment-input-area { border-top: 1px solid var(--border-color); padding: 12px 15px; background: #fafafa; }
-        .comment-img-preview-box { display: none; align-items: center; gap: 8px; background: #eef2f6; padding: 6px 10px; border-radius: 8px; margin-bottom: 8px; width: fit-content; border: 1px solid #cbd5e1; }
-        .comment-img-preview-box img { width: 42px; height: 42px; border-radius: 6px; object-fit: cover; border: 1px solid #bbb; }
+        .comment-input-area { border-top: 1px solid var(--border-color); padding: 12px 15px; background: var(--bg-panel); }
+        .comment-img-preview-box { display: none; align-items: center; gap: 8px; background: var(--bg-secondary); padding: 6px 10px; border-radius: 8px; margin-bottom: 8px; width: fit-content; border: 1px solid var(--border-color); color: var(--text-main); }
+        .comment-img-preview-box img { width: 42px; height: 42px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border-color); }
         .btn-remove-preview { background: #ff4c4c; color: #fff; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        .comment-input-wrapper { display: flex; gap: 8px; align-items: center; background: #fff; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border-color); }
-        .comment-input-wrapper input { background: none; border: none; color: #111; flex: 1; outline: none; font-size: 0.9rem;}
+        .comment-input-wrapper { display: flex; gap: 8px; align-items: center; background: var(--bg-input); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border-color); }
+        .comment-input-wrapper input { background: none; border: none; color: var(--text-main) !important; flex: 1; outline: none; font-size: 0.9rem;}
+        .comment-input-wrapper input::placeholder { color: var(--text-muted); opacity: 0.8; }
+        
         .action-icon-btn { cursor: pointer; width: 22px; height: 22px; opacity: 0.6; transition: 0.2s; }
         .action-icon-btn:hover { opacity: 1; }
+        [data-theme="dark"] .action-icon-btn { filter: invert(0.85); }
 
         /* PROFILE */
         /* PROFILE (ĐÃ THIẾT KẾ LẠI BỐ CỤC) */
