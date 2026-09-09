@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DANVworkshop - Coding community, Beyond the Blocks</title>
+    <title>DANV workshop-sibu</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/CpSdZCfv/ezgif-6163dce644345227.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="description" content="DANVworkshop là nền tảng cộng đồng chia sẻ, thảo luận và sáng tạo các dự án lập trình ACGN. Nhà phát triển trẻ tự do kết nối khối lệnh nâng cao, tạo ra câu chuyện của riêng mình." />
@@ -15,8 +15,15 @@
             --text-main: #222222; --text-muted: #366769;
             --border-color: #ffceb0;
         }
+        [data-theme="dark"] {
+            --primary: #0da57a; --primary-dark: #12d6a1;
+            --bg-body: #0f172a; --bg-panel: #1e293b;
+            --bg-secondary: #334155; --bg-input: #0f172a;
+            --text-main: #cbd5e1; --text-muted: #94a3b8; --text-title: #f8fafc;
+            --border-color: #334155;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+        body { background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; transition: background-color 0.3s, color 0.3s; }
         
         /* NAVBAR */
         .navbar { background: #123456; height: 62px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
@@ -122,6 +129,7 @@
         .comment-input-wrapper input { background: none; border: none; color: #679; flex: 1; outline: none; font-size: 0.9rem;}
         .action-icon-btn { cursor: pointer; width: 22px; height: 22px; opacity: 0.6; transition: 0.2s; }
         .action-icon-btn:hover { opacity: 1; }
+        [data-theme="dark"] .action-icon-btn { filter: invert(0.85); }
 
         /* PROFILE */
         /* PROFILE (ĐÃ THIẾT KẾ LẠI BỐ CỤC) */
@@ -239,6 +247,112 @@
         .btn-close { background: none; border: none; color: #845; font-size: 1.5rem; cursor: pointer; }
         .modal-body { padding: 22px; }
 
+        #globalLoader { position: fixed; inset: 0; background: var(--bg-panel); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 1; transition: opacity 0.5s ease; }
+        
+        /* CẬP NHẬT MÀU NỀN THEO THEME CHO CÁC ELEMENT CỐ ĐỊNH */
+        .form-control { background: var(--bg-input); color: var(--text-main); }
+        .upload-card-wrapper, .info-card, .profile-bio-box, .stat-badge, .comment-input-area, .comment-input-wrapper { background: var(--bg-panel); border-color: var(--border-color); }
+        .comment-text-bubble, .thumb-dropzone { background: var(--bg-secondary); color: var(--text-main); border-color: var(--border-color); }
+        .modal { background: var(--bg-panel); color: var(--text-main); }
+        .modal-header, .notif-header { background: var(--bg-secondary); border-color: var(--border-color); color: var(--text-title); }
+        h2, h3, h4, .profile-username-title { color: var(--text-title) !important; }
+        .btn:not(.btn-primary):not(.btn-danger) { background: var(--bg-secondary); color: var(--text-main); border: 1px solid var(--border-color); }
+        .btn:not(.btn-primary):not(.btn-danger):hover { background: var(--border-color); }
+
+        /* SETTINGS TAB UI */
+        .settings-layout { display: flex; flex-direction: column; gap: 20px; }
+        .settings-nav { display: flex; gap: 10px; border-bottom: 2px solid var(--border-color); overflow-x: auto; white-space: nowrap; padding-bottom: 5px;}
+        .set-tab-btn { background: none; border: none; padding: 10px 15px; font-weight: bold; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -7px; font-size: 1rem; transition: 0.2s;}
+        .set-tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .set-tab-content { display: none; padding-top: 10px; animation: fadeIn 0.3s; }
+        .set-tab-content.active { display: block; }
+        
+        /* MOBILE RESPONSIVE TWEAKS */
+        @media (max-width: 768px) {
+            .navbar { padding: 0 15px; }
+            .nav-link span { display: none; } /* Ẩn chữ trên nav, chỉ để icon */
+            .nav-actions .btn span { display: none; }
+            
+            .upload-grid { grid-template-columns: 1fr; gap: 15px; }
+            .profile-top-row { flex-direction: column; align-items: center; text-align: center; margin-top: -50px; }
+            .profile-actions { justify-content: center; margin-top: 15px; }
+            .profile-username-title { justify-content: center; }
+            .profile-stats-bar { justify-content: center; }
+            .profile-nav-tabs { overflow-x: auto; white-space: nowrap; padding-bottom: 5px; }
+            
+            .createView { padding: 60px 20px; }
+            .ccw-sidebar { height: auto; max-height: none; }
+            
+            .modal { max-width: 95vw; margin: 10px; }
+        }
+        /* --- BẢN VÁ LỖI MÀU CHỮ (DARK/LIGHT MODE TEXT FIX) --- */
+        
+        /* 1. Ép các Class chứa Username, Title, Chữ đậm theo biến màu của Theme */
+        .comment-author-name, .follow-user-name, .card-title, .stat-badge b, 
+        .profile-username-title, .info-header, .form-group label, .comment-text-bubble, 
+        .info-body, .profile-bio-box p, .timeline-item b {
+            color: var(--text-title) !important;
+        }
+        
+        .card-author, .comment-time, .profile-location, .thumb-placeholder {
+            color: var(--text-muted) !important;
+        }
+
+        .act-btn { color: var(--text-muted); }
+        .act-btn:hover { color: var(--text-title); }
+        
+        .toast { background: var(--bg-panel) !important; color: var(--text-title) !important; }
+
+        /* 2. INLINE TRONG JAVASCRIPT PHẢI SÁNG LÊN KHI Ở DARK MODE */
+        /* Bao gồm các mã màu xám, đen, xanh đen được code cứng trong HTML/JS */
+        [data-theme="dark"] [style*="color: #111"], [data-theme="dark"] [style*="color:#111"],
+        [data-theme="dark"] [style*="color: #222"], [data-theme="dark"] [style*="color:#222"],
+        [data-theme="dark"] [style*="color: #333"], [data-theme="dark"] [style*="color:#333"],
+        [data-theme="dark"] [style*="color: #444"], [data-theme="dark"] [style*="color:#444"],
+        [data-theme="dark"] [style*="color: #555"], [data-theme="dark"] [style*="color:#555"],
+        [data-theme="dark"] [style*="color: #666"], [data-theme="dark"] [style*="color:#666"],
+        [data-theme="dark"] [style*="color: #0f172a"], [data-theme="dark"] [style*="color: #1e293b"],
+        [data-theme="dark"] [style*="color: #334155"], [data-theme="dark"] [style*="color: #475569"],
+        [data-theme="dark"] [style*="color: #575e75"] {
+            color: var(--text-main) !important;
+        }
+
+        /* 3. Sửa nền của hệ thống Thông báo (Notifications) trong Dark mode */
+        [data-theme="dark"] #notifPageList > div {
+            background-color: var(--bg-panel) !important;
+            border-color: var(--border-color) !important;
+        }
+        [data-theme="dark"] #notifPageList > div > div > div[style*="background:#fff"] {
+            background-color: var(--bg-secondary) !important;
+            border-color: var(--border-color) !important;
+        }
+        [data-theme="dark"] .notif-header { background: var(--bg-panel) !important; }
+        [data-theme="dark"] .notif-item { background: var(--bg-panel); color: var(--text-main); }
+        [data-theme="dark"] .notif-item:hover { background: var(--bg-secondary); }
+
+        /* ASSETS STORE CSS */
+        .assets-header { background: var(--bg-panel); padding: 25px 30px; border-bottom: 1px solid var(--border-color); display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: center; }
+        .asset-search-bar { flex: 1; min-width: 250px; max-width: 500px; display: flex; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 25px; padding: 5px 15px; align-items: center; }
+        .asset-search-bar input { border: none; background: none; flex: 1; padding: 10px; color: var(--text-main); outline: none; }
+        
+        .asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; padding: 25px 30px; }
+        .asset-card { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .asset-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-color: var(--primary); }
+        .asset-preview { height: 160px; background: repeating-conic-gradient(#e5e7eb 0% 25%, transparent 0% 50%) 50% / 20px 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        [data-theme="dark"] .asset-preview { background: repeating-conic-gradient(#1e293b 0% 25%, #0f172a 0% 50%) 50% / 20px 20px; }
+        .asset-preview img, .asset-preview video { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .asset-badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase;}
+        
+        .asset-info { padding: 15px; display: flex; flex-direction: column; flex: 1; }
+        .asset-title { font-weight: bold; font-size: 1rem; margin-bottom: 5px; color: var(--text-title); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .asset-tags { font-size: 0.75rem; color: var(--primary); margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        
+        .asset-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 10px;}
+        .asset-vote-group { display: flex; gap: 4px; align-items: center; }
+        .vote-btn { background: none; border: none; font-size: 1rem; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; transition: 0.2s;}
+        .vote-btn:hover { background: var(--border-color); }
+        .vote-btn.up.active { color: #10b981; background: rgba(16, 185, 129, 0.1); }
+        .vote-btn.down.active { color: #ef4444; background: rgba(239, 68, 68, 0.1); }
         #globalLoader { position: fixed; inset: 0; background: #fa5; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; opacity: 1; transition: opacity 0.5s ease; }
     </style>
 </head>
@@ -255,8 +369,9 @@
             <a href="#home" class="navbar-brand">
                 <img src="https://i.ibb.co/9mhxsQM2/ezgif-1b203d38782d98f9.png" alt="StudioDANV Logo" class="nav-logo-img">
             </a>
-            <a href="#home" class="nav-link" data-i18n="nav_explore"><i class="fa-solid fa-compass"></i> Khám phá</a>
-            <a href="#create" class="nav-link" data-i18n="nav_create"><i class="fa-solid fa-wand-magic-sparkles"></i> Sáng tạo</a>
+            <a href="#home" class="nav-link"><i class="fa-solid fa-compass"></i> <span data-i18n="nav_explore">Khám phá</span></a>
+            <a href="#create" class="nav-link"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="nav_create">Sáng tạo</span></a>
+            <a href="#assets" class="nav-link" style="color: #f5b041;"><i class="fa-solid fa-box-open"></i> <span data-i18n="nav_assets">Tài nguyên</span></a>
         </div>
         <div class="nav-actions" id="navActions"></div>
     </nav>
@@ -268,6 +383,32 @@
         <p style="color: #366; margin-bottom: 30px; font-size: 1.1rem;">Chúng tôi đã mở <b id="createEngineName" style="color:var(--primary);">Aftercode</b> trong một tab mới để bạn thỏa sức sáng tạo.</p>
         <button class="btn btn-primary" onclick="reopenEditor()" style="padding: 12px 30px; font-size: 1.05rem; border-radius: 25px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Mở lại tab</button>
         <button class="btn" onclick="location.hash='#home'" style="margin-left: 15px; padding: 12px 30px; font-size: 1.05rem; border-radius: 25px;"><i class="fa-solid fa-house"></i> Về Trang chủ</button>
+    </div>
+
+    <!-- TRANG TÀI NGUYÊN (ASSETS STORE) -->
+    <div id="assetsView" class="page-view" style="max-width: 100%; padding: 0;">
+        <div class="assets-header">
+            <div>
+                <h2 style="margin-bottom: 5px;"><i class="fa-solid fa-box-open" style="color:#f5b041;"></i> <span data-i18n="assets_title">Cửa hàng Tài nguyên</span></h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="assets_subtitle">Khu vực chia sẻ đồ họa, âm thanh miễn phí của cộng đồng.</p>
+            </div>
+            
+            <div class="asset-search-bar">
+                <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
+                <input type="text" id="assetSearchInput" data-i18n-ph="assets_search_ph" placeholder="Tìm kiếm tên, tag, tác giả..." onkeyup="handleAssetSearch(event)">
+                <button class="btn btn-primary" style="padding: 6px 12px; border-radius: 20px;" onclick="searchAssets()"><span data-i18n="assets_search_btn">Tìm</span></button>
+            </div>
+            
+            <button class="btn btn-primary" onclick="openUploadAssetModal()"><i class="fa-solid fa-cloud-arrow-up"></i> <span data-i18n="assets_upload_btn">Đóng góp</span></button>
+        </div>
+
+        <div class="asset-grid" id="assetGridList">
+            <!-- Render JS -->
+        </div>
+
+        <div style="text-align: center; padding: 20px 0 40px 0;" id="assetLoadMoreArea">
+            <button class="btn" style="padding: 10px 30px; font-weight: bold; border-radius: 20px;" onclick="loadMoreAssets()"><i class="fa-solid fa-angle-down"></i> <span data-i18n="assets_load_more">Xem thêm</span></button>
+        </div>
     </div>
 
     <!-- TRANG 1: KHÁM PHÁ -->
@@ -499,63 +640,85 @@
         </div>
     </div>
 
-    <!-- TRANG 5: CÀI ĐẶT TÀI KHOẢN (SETTINGS) -->
+    <!-- TRANG 5: CÀI ĐẶT TÀI KHOẢN (SETTINGS) - REDESIGN TABS -->
     <div id="settingsView" class="page-view" style="max-width: 800px;">
         <div class="upload-card-wrapper">
-            <h2 style="color:#fff; border-bottom:1px solid #e67; padding-bottom:15px; margin-bottom:20px;"><i class="fa-solid fa-gear" style="color:var(--primary);"></i> Cài đặt tài khoản</h2>
+            <h2 style="border-bottom:1px solid var(--border-color); padding-bottom:15px; margin-bottom:20px;"><i class="fa-solid fa-gear" style="color:var(--primary);"></i> <span data-i18n="settings_title">Cài đặt tài khoản</span></h2>
             
-            <div style="display:flex; gap:30px; align-items:flex-start;">
-                <!-- Form Đổi Thông tin -->
-                <div style="flex:1;">
-                    <h4 style="margin-bottom:15px;">Hồ sơ công khai</h4>
+            <div class="settings-layout">
+                <!-- Navigation Tabs -->
+                <div class="settings-nav">
+                    <button class="set-tab-btn active" id="setTabBtn-profile" onclick="switchSettingsTab('profile')"><i class="fa-solid fa-user-pen"></i> <span data-i18n="settings_tab_profile">Hồ sơ cá nhân</span></button>
+                    <button class="set-tab-btn" id="setTabBtn-pref" onclick="switchSettingsTab('pref')"><i class="fa-solid fa-sliders"></i> <span data-i18n="settings_tab_pref">Tùy chọn hiển thị</span></button>
+                    <button class="set-tab-btn" id="setTabBtn-account" onclick="switchSettingsTab('account')"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="settings_tab_account">Tài khoản & Liên kết</span></button>
+                </div>
+
+                <!-- TAB 1: HỒ SƠ -->
+                <div id="setTab-profile" class="set-tab-content active">
                     <form id="editProfForm">
-                        <div class="form-group"><label>Đổi Ảnh đại diện (Tối đa 5MB):</label><input type="file" id="editAvtFile" accept="image/*" class="form-control" style="padding:8px;"></div>
-                        <div class="form-group"><label>Tên hiển thị (Display Name):</label><input type="text" id="editDisplayNameInput" class="form-control" placeholder="Tên hiển thị tự do..."></div>
-                        <div class="form-group"><label>Tỉnh thành / Quốc gia:</label><input type="text" id="editLocationInput" class="form-control" placeholder="Ví dụ: Hà Nội, VN"></div>
-                        <div class="form-group"><label>Trạng thái (Status):</label><input type="text" id="editStatusInput" class="form-control" placeholder="Đang làm game..."></div>
-                        <div class="form-group"><label>Giới thiệu (Bio):</label><textarea id="editBioInput" class="form-control" rows="3"></textarea></div>
-                        <div class="form-group"><label>Dự án làm Banner nổi bật:</label><select id="editFeaturedProjSelect" class="form-control"><option value="">-- Không chọn --</option></select></div>
-                        <button type="button" onclick="saveProfileInfoBtn()" class="btn btn-primary" id="btnSaveProfSubmit" style="width: 100%; justify-content:center;">Lưu thông tin</button>
+                        <div class="form-group">
+                            <label data-i18n="settings_avatar">Đổi Ảnh đại diện:</label>
+                            <input type="file" id="editAvtFile" accept="image/*" class="form-control" style="padding:8px;">
+                            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;" data-i18n="settings_image_hint">Hình ảnh sẽ hiển thị trên hồ sơ và bình luận.</div>
+                        </div>
+                        <div class="form-group"><label data-i18n="settings_display_name">Tên hiển thị:</label><input type="text" id="editDisplayNameInput" class="form-control" data-i18n-ph="settings_display_name_ph" placeholder="Tên hiển thị tự do..."></div>
+                        <div class="form-group"><label data-i18n="settings_location">Tỉnh thành / Quốc gia:</label><input type="text" id="editLocationInput" class="form-control" data-i18n-ph="settings_location_ph" placeholder="Ví dụ: Hà Nội, VN"></div>
+                        <div class="form-group"><label data-i18n="settings_status">Mô tả trạng thái:</label><input type="text" id="editStatusInput" class="form-control" data-i18n-ph="settings_status_ph" placeholder="Đang làm game..."></div>
+                        <div class="form-group"><label data-i18n="settings_bio">Giới thiệu:</label><textarea id="editBioInput" class="form-control" rows="3"></textarea></div>
+                        <div class="form-group"><label data-i18n="settings_banner_proj">Dự án làm Banner nổi bật:</label><select id="editFeaturedProjSelect" class="form-control"><option value="">-- Không chọn --</option></select></div>
+                        <button type="button" onclick="saveProfileInfoBtn()" class="btn btn-primary" id="btnSaveProfSubmit" style="width: 100%; justify-content:center; margin-top: 10px;" data-i18n="settings_save">Lưu thông tin</button>
                     </form>
                 </div>
 
-                <!-- Các Liên Kết & Cài Đặt Khác -->
-                <div style="width:300px; background:#666; padding:20px; border-radius:12px; border:1px solid #eef2f6;">
-                    <h4 style="margin-bottom:15px;">Xác thực & Liên kết</h4>
-                    <div id="scratchLinkStatus" style="margin-bottom:15px;">
-                        <div style="font-size:0.85rem; color:#236; margin-bottom:6px;">Tài khoản Scratch:</div>
-                        <!-- Sẽ render bằng JS -->
-                    </div>
-
-                    <h4 style="margin-bottom:15px;" data-i18n="settings_options">Tùy chọn</h4>
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label data-i18n="settings_engine">Engine Lập trình:</label>
+                <!-- TAB 2: TÙY CHỌN & HIỂN THỊ -->
+                <div id="setTab-pref" class="set-tab-content">
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label data-i18n="settings_theme">Giao diện (Theme):</label>
                         <div style="display: flex; gap: 10px; margin-top: 8px;">
-                            <button type="button" id="btnEngineAftercode" onclick="changeEngine('aftercode')" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:15px; border:2px solid var(--primary); border-radius:12px; background:#f0fdf4; cursor:pointer; transition:0.2s;">
-                                <img src="https://i.ibb.co/7dLkRJKZ/ezgif-1f45d90f66f6c39a.png" width="38" style="border-radius:8px;">
-                                <span style="font-weight:bold; font-size:0.9rem; color:#111;">Aftercode <br>(New Things)</span>
-                            </button>
-                            <button type="button" id="btnEngineTurbowarp" onclick="changeEngine('turbowarp')" style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:15px; border:2px solid #cbd5e1; border-radius:12px; background:#fff; cursor:pointer; transition:0.2s;">
-                                <img src="https://i.ibb.co/b5s3qVDx/ezgif-1f45d90f66f6c39a.png" width="38" style="border-radius:8px;">
-                                <span style="font-weight:bold; font-size:0.9rem; color:#111;">TurboWarp <br>(Stable)</span>
-                            </button>
+                            <button type="button" class="btn" onclick="toggleTheme('light')" style="flex:1; justify-content:center; padding: 12px;"><i class="fa-solid fa-sun"></i> <span data-i18n="settings_theme_light">Sáng</span></button>
+                            <button type="button" class="btn" onclick="toggleTheme('dark')" style="flex:1; justify-content:center; padding: 12px;"><i class="fa-solid fa-moon"></i> <span data-i18n="settings_theme_dark">Tối</span></button>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Ngôn ngữ (Language):</label>
-                        <select id="langSelect" class="form-control" onchange="changeLanguage(this.value)">
+                    
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label data-i18n="settings_lang">Ngôn ngữ [Language]:</label>
+                        <select id="langSelect" class="form-control" onchange="setLanguage(this.value)">
                             <option value="vi">Tiếng Việt</option>
                             <option value="en">English</option>
                         </select>
                     </div>
 
-                    <div style="margin-top:30px; font-size:0.85rem; color:#888;">
-                        <a href="https://studiodanv.blogspot.com/2026/09/DANVworkshop-TOS.html" target="_blank" style="color:var(--primary); text-decoration:none; display:block; margin-bottom:6px;">Điều khoản sử dụng (TOS)</a>
-                        <a href="https://studiodanv.blogspot.com/2026/09/DANVworkshop-Privacy-Policy.html" target="_blank" style="color:var(--primary); text-decoration:none; display:block; margin-bottom:15px;">Chính sách bảo mật</a>
-                        <div style="border-top:1px solid #ddd; padding-top:10px; margin-bottom:20px;">Hỗ trợ: <a href="mailto:studiodanv@gmail.com" style="color:#333; font-weight:bold;">studiodanv@gmail.com</a></div>
-                        <button class="btn btn-danger" onclick="logout()" style="width: 100%; justify-content: center;"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất tài khoản</button>
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label data-i18n="settings_engine">Engine Lập trình (Trình chỉnh sửa):</label>
+                        <div style="display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap;">
+                            <button type="button" id="btnEngineAftercode" onclick="changeEngine('aftercode')" style="flex:1; min-width: 150px; display:flex; flex-direction:column; align-items:center; gap:8px; padding:15px; border:2px solid var(--primary); border-radius:12px; background:var(--bg-secondary); cursor:pointer; transition:0.2s;">
+                                <img src="https://i.ibb.co/7dLkRJKZ/ezgif-1f45d90f66f6c39a.png" width="38" style="border-radius:8px;">
+                                <span style="font-weight:bold; font-size:0.9rem; color:var(--text-main);">Aftercode </br>(Mặc định)</span>
+                            </button>
+                            <button type="button" id="btnEngineTurbowarp" onclick="changeEngine('turbowarp')" style="flex:1; min-width: 150px; display:flex; flex-direction:column; align-items:center; gap:8px; padding:15px; border:2px solid var(--border-color); border-radius:12px; background:var(--bg-panel); cursor:pointer; transition:0.2s;">
+                                <img src="https://i.ibb.co/b5s3qVDx/ezgif-1f45d90f66f6c39a.png" width="38" style="border-radius:8px;">
+                                <span style="font-weight:bold; font-size:0.9rem; color:var(--text-main);">TurboWarp</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                <!-- TAB 3: TÀI KHOẢN & BẢO MẬT -->
+                <div id="setTab-account" class="set-tab-content">
+                    <div id="scratchLinkStatus" style="margin-bottom:25px; padding: 20px; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="font-size:0.9rem; font-weight:bold; color:var(--text-title); margin-bottom:6px;" data-i18n="settings_scratch_title">Tài khoản Scratch:</div>
+                        <!-- Sẽ render bằng JS -->
+                    </div>
+
+                    <div style="font-size:0.9rem; color:var(--text-muted); margin-bottom: 30px;">
+                        <a href="https://studiodanv.blogspot.com/2026/09/DANVworkshop-TOS.html" target="_blank" style="color:var(--primary); text-decoration:none; display:block; margin-bottom:10px;" data-i18n="settings_tos"><i class="fa-solid fa-file-contract"></i> Điều khoản sử dụng</a>
+                        <a href="https://studiodanv.blogspot.com/2026/09/DANVworkshop-Privacy-Policy.html" target="_blank" style="color:var(--primary); text-decoration:none; display:block; margin-bottom:10px;" data-i18n="settings_privacy"><i class="fa-solid fa-shield"></i> Chính sách bảo mật</a>
+                        <div style="margin-top: 15px;"><span data-i18n="settings_support">Hỗ trợ:</span> <a href="mailto:studiodanv@gmail.com" style="color:var(--text-main); font-weight:bold;">studiodanv@gmail.com</a></div>
+                    </div>
+
+                    <button class="btn btn-danger" onclick="logout()" style="width: 100%; justify-content: center; padding: 12px; font-size: 1rem;"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="settings_logout">Đăng xuất tài khoản</span></button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -593,6 +756,28 @@
     </div>
 
     <!-- ================= MODALS HỆ THỐNG ================= -->
+
+    <!-- MODAL UPLOAD TÀI NGUYÊN -->
+    <div class="modal-overlay" id="uploadAssetModal">
+        <div class="modal" style="max-width:500px;">
+            <div class="modal-header"><span><i class="fa-solid fa-cloud-arrow-up"></i> Chia sẻ Tài nguyên</span><button class="btn-close" onclick="closeModal('uploadAssetModal')">&times;</button></div>
+            <div class="modal-body">
+                <form onsubmit="handleUploadAssetSubmit(event)">
+                    <div class="form-group">
+                        <label>Chọn File (Tối đa 50MB) *:</label>
+                        <input type="file" id="assetUpFile" class="form-control" required style="padding: 8px;" accept="image/*, audio/*, video/*, .svg">
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Hỗ trợ: PNG, JPG, GIF, SVG, MP3, WAV... File lớn hơn 18MB sẽ tự động chia nhỏ.</div>
+                    </div>
+                    <div class="form-group"><label>Tên tài nguyên *:</label><input type="text" id="assetUpTitle" class="form-control" required placeholder="Ví dụ: Nút bấm Pixel 2D"></div>
+                    <div class="form-group"><label>Từ khóa (Tags) *:</label><input type="text" id="assetUpKeywords" class="form-control" required placeholder="Ví dụ: ui, button, pixel, gui (cách nhau dấu phẩy)"></div>
+                    
+                    <button type="submit" class="btn btn-primary" id="btnSubmitUploadAsset" style="width:100%; justify-content:center; margin-top: 15px; padding: 12px;">
+                        <i class="fa-solid fa-upload"></i> Đăng Tài nguyên
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ -->
     <div class="modal-overlay" id="loginModal">
@@ -656,24 +841,24 @@
     <!-- MODAL TỐ CÁO -->
     <div class="modal-overlay" id="reportModal">
         <div class="modal" style="max-width:420px;">
-            <div class="modal-header"><span>Tố cáo Vi phạm</span><button class="btn-close" onclick="closeModal('reportModal')">&times;</button></div>
+            <div class="modal-header"><span><i class="fa-solid fa-flag"></i> Tố cáo Vi phạm</span><button class="btn-close" onclick="closeModal('reportModal')">&times;</button></div>
             <div class="modal-body">
                 <form onsubmit="handleReportSubmit(event)">
                     <div class="form-group">
-                        <label>Lý do Tố cáo:</label>
-                        <select id="reportReason" class="form-control" onchange="toggleReportOtherReason(this.value)">
+                        <label>Phân loại vi phạm:</label>
+                        <select id="reportReason" class="form-control">
                             <option value="Spam / Quảng cáo rác">Spam / Quảng cáo rác</option>
                             <option value="Ngôn từ đả kích, xúc phạm">Ngôn từ đả kích, xúc phạm</option>
-                            <option value="Vi phạm bản quyền (Re-up không ghi nguồn)">Vi phạm bản quyền (Re-up không ghi nguồn)</option>
+                            <option value="Vi phạm bản quyền">Vi phạm bản quyền (Không ghi nguồn)</option>
                             <option value="Nội dung không phù hợp">Nội dung đồi trụy / Không phù hợp</option>
-                            <option value="other">Khác (Nhập lý do chi tiết)...</option>
+                            <option value="Khác">Lý do khác...</option>
                         </select>
                     </div>
-                    <div class="form-group" id="reportOtherGroup" style="display:none;">
+                    <div class="form-group" id="reportOtherGroup">
                         <label>Mô tả chi tiết vi phạm *:</label>
-                        <textarea id="reportReasonOther" class="form-control" rows="3" placeholder="Nhập lý do cụ thể để Admin kiểm tra..."></textarea>
+                        <textarea id="reportReasonOther" class="form-control" rows="3" placeholder="Bắt buộc nhập chi tiết để Quản trị viên xử lý..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-danger" style="width:100%; justify-content:center; margin-top:10px;"><i class="fa-solid fa-flag"></i> Gửi Tố cáo</button>
+                    <button type="submit" class="btn btn-danger" style="width:100%; justify-content:center; margin-top:10px;"><i class="fa-solid fa-paper-plane"></i> Gửi Tố cáo</button>
                 </form>
             </div>
         </div>
@@ -826,6 +1011,12 @@
         
         let currentUser = JSON.parse(localStorage.getItem('danv_user') || 'null');
         let allProjects = []; let currentProj = null; let viewingProfileUser = null; let viewingProfileData = null;
+        
+        // --- Assets ---
+        let allAssets = []; let displayedAssetsCount = 0; const ASSETS_PER_PAGE = 16; 
+        let currentAssetSearchQuery = "";
+        // ----------------------------
+
         let replyState = { proj: { parentId: null, user: null }, prof: { parentId: null, user: null } };
         let expandedThreads = { proj: {}, prof: {} };
         let isPosting = { proj: false, prof: false };
@@ -854,6 +1045,11 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             const loader = document.getElementById('globalLoader');
+            
+            // Khởi tạo Theme ngay lập tức
+            const savedTheme = localStorage.getItem('danv_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
             try {
                 const urlParams = new URLSearchParams(window.location.search);
                 if (urlParams.get('code')) {
@@ -960,6 +1156,10 @@
             if (hash === '#home' || hash === '') {
                 await loadProjects(); 
             }
+            // tải dữ liệu tài nguyên khi vào trang assets
+            if (hash.startsWith('#assets')) {
+                await fetchAssetsList();
+            }
 
             if (hash.startsWith('#project/')) await openProjectPage(hash.replace('#project/', ''), urlParams);
             else if (hash.startsWith('#profile/')) openProfilePage(decodeURIComponent(hash.replace('#profile/', '')), urlParams);
@@ -968,6 +1168,7 @@
             else if (hash === '#notifications') openNotificationsPage();
             else if (hash === '#create') openCreatePage();
             else if (hash === '#admin') openAdminPage();
+            else if (hash.startsWith('#assets')) openAssetsPage(urlParams); // Dẫn vào trang Assets
             else openHomePage();
         }
 
@@ -1658,11 +1859,6 @@
         }
 
         // ================= REPORT & ADMIN =================
-        function toggleReportOtherReason(val) {
-            const box = document.getElementById('reportOtherGroup');
-            if(box) box.style.display = val === 'other' ? 'block' : 'none';
-        }
-
         function openReportModal(type, id = null, contextType = null) {
             if(!currentUser) return openModal('loginModal');
             reportTarget.type = type;
@@ -1672,7 +1868,6 @@
             } else if (type === 'user' || type === 'profile') {
                 reportTarget.id = id || viewingProfileUser;
             } else if (type === 'comment') {
-                // Định vị rõ bình luận thuộc Dự án nào hay Tường cá nhân nào
                 if (contextType === 'proj' || currentProj) {
                     const pId = currentProj ? (currentProj.projectId || currentProj.fileId) : 'unknown';
                     reportTarget.id = `proj:${pId}:${id}`;
@@ -1680,28 +1875,32 @@
                     reportTarget.id = `prof:${viewingProfileUser}:${id}`;
                 }
             } else {
+                // Nhận ID của asset hoặc loại khác
                 reportTarget.id = id;
             }
 
             // Đặt lại mặc định form
             document.getElementById('reportReason').value = "Spam / Quảng cáo rác";
             document.getElementById('reportReasonOther').value = "";
-            toggleReportOtherReason('Spam / Quảng cáo rác');
 
             openModal('reportModal');
         }
 
         async function handleReportSubmit(e) {
             e.preventDefault();
+            
             const reasonSelect = document.getElementById('reportReason').value;
-            let finalReason = reasonSelect;
+            const customDetail = document.getElementById('reportReasonOther').value.trim();
+            
+            if (!customDetail) return showToast("Vui lòng nhập mô tả chi tiết vi phạm!", "error");
+            
+            // Gộp cả 2 thông tin lại để gửi cho Admin
+            const finalReason = `[${reasonSelect}] - Chi tiết: ${customDetail}`;
 
-            // Xử lý khi chọn "Khác"
-            if (reasonSelect === 'other') {
-                const customDetail = document.getElementById('reportReasonOther').value.trim();
-                if (!customDetail) return showToast("Vui lòng nhập lý do cụ thể!", "error");
-                finalReason = `Khác: ${customDetail}`;
-            }
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang gửi...';
+            btn.disabled = true;
 
             const res = await apiFetch(`/api/report`, { 
                 method: 'POST', 
@@ -1716,6 +1915,9 @@
                 showToast("Cảm ơn bạn đã báo cáo. Quản trị viên sẽ xem xét.", "success"); 
                 closeModal('reportModal'); 
             }
+            
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
         }
 
         function openAdminPrivateModal() { openModal('adminPrivateModal'); }
@@ -1728,7 +1930,7 @@
 
         // ================= TRANG ADMIN PANEL =================
         async function openAdminPage() {
-            // Bảo vệ cấp 1 trên Frontend (Cấp 2 nằm ở Backend)
+            // 
             if(!currentUser || currentUser.role !== 'admin') {
                 showToast("Bạn không có quyền truy cập khu vực này!", "error");
                 location.hash = '#home';
@@ -1738,8 +1940,11 @@
             loadAdminReports();
         }
 
-        // Hàm hỗ trợ tự động tìm vị trí của Comment (Kể cả dữ liệu cũ trong Sheet)
+        // Hàm hỗ trợ tự động tìm vị trí của Báo cáo 
         function resolveReportTargetLink(r) {
+            if (r.targetType === 'asset') {
+                return { url: `#assets?search=${r.targetId}`, label: 'Xem tài nguyên', valid: true };
+            }
             if (r.targetType === 'project') {
                 return { url: `#project/${r.targetId}`, label: 'Kiểm tra dự án', valid: true };
             }
@@ -2333,22 +2538,207 @@
             reopenEditor();
         }
 
-        function reopenEditor() {
-            const engine = localStorage.getItem('engine') || 'aftercode';
+        // ================= HỆ THỐNG ASSETS STORE =================
+        async function fetchAssetsList() {
+            try {
+                const res = await (await fetch(`${WORKER_URL}/api/assets`)).json();
+                if(!res.error) allAssets = res;
+            } catch(e){}
+        }
+
+        function openAssetsPage(urlParams) {
+            document.getElementById('assetsView').style.display = 'block';
             
-            // Link project gốc cho TurboWarp
-            const twProjUrl = encodeURIComponent('https://app.studiodanv.workers.dev/api/project/BQACAgUAAyEGAAMBAm7g1wADWWqaA9XCFAa2PZvJLk9gR6LFYg7aAAL4HwAC1VPQVNAurUwM2LD8PQQ');
-            // Link project mới riêng cho Aftercode
-            const acProjUrl = encodeURIComponent('https://app.studiodanv.workers.dev/api/project/BQACAgUAAyEGAAMBAm7g1wACAQxqnLXk9hGXa3seT3AsRBStUrB4SgACmSEAAo4d4VQM1kADtVQ2xz0E');
+            // Xử lý tìm kiếm qua URL nếu có (VD: #assets?search=pixel)
+            currentAssetSearchQuery = urlParams ? (urlParams.get('search') || "").toLowerCase() : "";
+            document.getElementById('assetSearchInput').value = currentAssetSearchQuery;
             
-            const editorUrl = engine === 'turbowarp' 
-                ? `https://turbowarp.org/editor?project_url=${twProjUrl}`
-                : `https://aftercode-web-wheat.vercel.app/editor.html?project_url=${acProjUrl}`;
+            displayedAssetsCount = ASSETS_PER_PAGE;
+            renderAssetGrid();
+        }
+
+        function handleAssetSearch(e) { if(e.key === 'Enter') searchAssets(); }
+        
+        function searchAssets() {
+            currentAssetSearchQuery = document.getElementById('assetSearchInput').value.toLowerCase().trim();
+            displayedAssetsCount = ASSETS_PER_PAGE; // Reset số lượng hiển thị
+            renderAssetGrid();
+        }
+
+        function loadMoreAssets() {
+            displayedAssetsCount += ASSETS_PER_PAGE;
+            renderAssetGrid();
+        }
+
+        function renderAssetGrid() {
+            const container = document.getElementById('assetGridList');
+            const loadMoreBtn = document.getElementById('assetLoadMoreArea');
             
-            document.getElementById('createEngineName').innerText = engine === 'turbowarp' ? 'TurboWarp' : 'Aftercode';
-            window.open(editorUrl, '_blank');
+            // Lọc theo tìm kiếm
+            let filtered = allAssets;
+            if (currentAssetSearchQuery) {
+                filtered = allAssets.filter(a => 
+                    a.title.toLowerCase().includes(currentAssetSearchQuery) || 
+                    a.keywords.toLowerCase().includes(currentAssetSearchQuery) || 
+                    a.author.toLowerCase().includes(currentAssetSearchQuery) ||
+                    a.assetId === currentAssetSearchQuery
+                );
+            }
+
+            const visibleAssets = filtered.slice(0, displayedAssetsCount);
+            
+            if (visibleAssets.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1 / -1; text-align:center; padding:50px 20px; color:var(--text-muted);"><i class="fa-solid fa-ghost" style="font-size:3rem; margin-bottom:15px; opacity:0.5;"></i><br>Không tìm thấy tài nguyên nào.</div>`;
+                loadMoreBtn.style.display = 'none';
+                return;
+            }
+
+            container.innerHTML = visibleAssets.map(a => {
+                const fileExt = a.fileType.toLowerCase();
+                // Bổ sung ?ext= vào URL để Backend nhận diện định dạng chuẩn
+                const fileUrl = `${WORKER_URL}/api/project/${a.fileId}?ext=${fileExt}`;
+                
+                let previewHtml = `<i class="fa-solid fa-file" style="font-size:4rem; color:#cbd5e1;"></i>`;
+                if (['png','jpg','jpeg','gif','webp','svg'].includes(fileExt)) {
+                    previewHtml = `<img src="${fileUrl}" loading="lazy">`;
+                } else if (['mp3','wav','ogg'].includes(fileExt)) {
+                    previewHtml = `<i class="fa-solid fa-music" style="font-size:3.5rem; color:#855cd6;"></i><audio controls style="position:absolute; bottom:5px; width:90%; height:30px;"><source src="${fileUrl}" type="audio/mpeg"></audio>`;
+                }
+
+                // Logic Vote
+                const upvotes = a.upvotes || []; const downvotes = a.downvotes || [];
+                const upActive = currentUser && upvotes.includes(currentUser.username) ? 'active' : '';
+                const downActive = currentUser && downvotes.includes(currentUser.username) ? 'active' : '';
+                const netScore = upvotes.length - downvotes.length;
+
+                return `
+                <div class="asset-card">
+                    <div class="asset-preview">
+                        <div class="asset-badge">${fileExt}</div>
+                        ${previewHtml}
+                    </div>
+                    <div class="asset-info">
+                        <div class="asset-title" title="${escapeHtml(a.title)}">${escapeHtml(a.title)}</div>
+                        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;"><i class="fa-solid fa-user-pen"></i> <a href="#profile/${a.author}" style="color:var(--text-muted); text-decoration:none;">${escapeHtml(a.author)}</a> • ${a.size}MB</div>
+                        <div class="asset-tags">${escapeHtml(a.keywords).split(',').map(k => `#${k.trim()}`).join(' ')}</div>
+                        
+                        <div class="asset-footer">
+                            <div class="asset-vote-group">
+                                <button class="vote-btn up ${upActive}" onclick="toggleAssetVote('${a.assetId}', 'upvote')"><i class="fa-solid fa-caret-up"></i></button>
+                                <span style="font-weight:bold; font-size:0.9rem; min-width:15px; text-align:center; color:var(--text-title);">${netScore}</span>
+                                <button class="vote-btn down ${downActive}" onclick="toggleAssetVote('${a.assetId}', 'downvote')"><i class="fa-solid fa-caret-down"></i></button>
+                            </div>
+                            
+                            <div style="display:flex; gap:8px;">
+                                <button class="vote-btn" style="color:#f5b041;" onclick="openReportModal('asset', '${a.assetId}')" title="Báo cáo"><i class="fa-solid fa-flag"></i></button>
+                                <a href="${fileUrl}" target="_blank" download class="btn btn-primary" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-solid fa-download"></i> Tải</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            loadMoreBtn.style.display = displayedAssetsCount >= filtered.length ? 'none' : 'block';
+        }
+
+        async function toggleAssetVote(assetId, type) {
+            if (!currentUser) return openModal('loginModal');
+            const res = await apiFetch(`/api/assets/action`, { method: 'POST', body: JSON.stringify({ assetId, action: `toggle_${type}` }) });
+            if (res && res.success) {
+                const asset = allAssets.find(a => a.assetId === assetId);
+                if (asset) {
+                    asset.upvotes = res.upvotes; asset.downvotes = res.downvotes;
+                    renderAssetGrid();
+                }
+            }
+        }
+
+        function openUploadAssetModal() {
+            if (!currentUser) return openModal('loginModal');
+            document.getElementById('assetUpFile').value = '';
+            document.getElementById('assetUpTitle').value = '';
+            document.getElementById('assetUpKeywords').value = '';
+            openModal('uploadAssetModal');
+        }
+
+        async function handleUploadAssetSubmit(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('assetUpFile').files[0];
+            if (!fileInput) return;
+            
+            if (fileInput.size > 50 * 1024 * 1024) return showToast("Dung lượng tối đa là 50MB!", "error");
+            
+            const btn = document.getElementById('btnSubmitUploadAsset');
+            btn.disabled = true;
+
+            const CHUNK_SIZE = 18 * 1024 * 1024;
+            const totalChunks = Math.ceil(fileInput.size / CHUNK_SIZE);
+            let uploadedIds = [];
+            
+            // Lấy đuôi file
+            const fileExt = fileInput.name.split('.').pop();
+
+            try {
+                //
+                for (let i = 0; i < totalChunks; i++) {
+                    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang tải lên: Phần ${i + 1}/${totalChunks}...`;
+                    const chunk = fileInput.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
+                    const chunkForm = new FormData();
+                    // 
+                    chunkForm.append("file", chunk, `asset_part_${i}.${fileExt}`);
+                    chunkForm.append("username", currentUser.username);
+                    chunkForm.append("sessionToken", currentUser.sessionToken);
+
+                    const res = await (await fetch(`${WORKER_URL}/api/upload`, { method: 'POST', body: chunkForm, headers:{"X-Client-Type":"StudioDANV-Web"} })).json();
+                    if (!res.success) throw new Error(res.error || "Lỗi tải mảnh ghép");
+                    uploadedIds.push(res.file_id);
+                }
+
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang lưu thông tin...';
+                
+                const fileExt = fileInput.name.split('.').pop();
+                const fileSizeMB = (fileInput.size / (1024 * 1024)).toFixed(2);
+
+                const finalForm = new FormData(); 
+                finalForm.append("preloadedFileId", uploadedIds.join(",")); 
+                finalForm.append("title", document.getElementById('assetUpTitle').value); 
+                finalForm.append("keywords", document.getElementById('assetUpKeywords').value); 
+                finalForm.append("fileType", fileExt); 
+                finalForm.append("size", fileSizeMB); 
+                finalForm.append("uploadType", "asset"); 
+                finalForm.append("author", currentUser.username); 
+                finalForm.append("username", currentUser.username); 
+                finalForm.append("sessionToken", currentUser.sessionToken);
+
+                const finalRes = await (await fetch(`${WORKER_URL}/api/upload`, { method: 'POST', body: finalForm, headers:{"X-Client-Type":"StudioDANV-Web"} })).json();
+                if (finalRes.success) { 
+                    showToast("Đã chia sẻ Tài nguyên thành công!", "success"); 
+                    closeModal('uploadAssetModal');
+                    await fetchAssetsList();
+                    searchAssets(); 
+                } else {
+                    showToast(finalRes.error || "Lỗi tải lên", "error");
+                }
+            } catch(err) { 
+                showToast("Lỗi kết nối: " + err.message, "error"); 
+            }
+            btn.innerHTML = `<i class="fa-solid fa-upload"></i> Đăng Tài nguyên`; btn.disabled = false;
         }
         
+        // ================= GIAO DIỆN & TABS CÀI ĐẶT =================
+        function switchSettingsTab(tabName) {
+            document.querySelectorAll('.set-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.set-tab-content').forEach(c => c.classList.remove('active'));
+            
+            document.getElementById(`setTabBtn-${tabName}`).classList.add('active');
+            document.getElementById(`setTab-${tabName}`).classList.add('active');
+        }
+
+        function toggleTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('danv_theme', theme);
+            showToast(`Đã chuyển sang chế độ ${theme === 'dark' ? 'Tối' : 'Sáng'}`, "success");
+        }
     </script>
 </body>
 </html>
