@@ -1407,7 +1407,61 @@
                 }
             } catch(e){}
         }
+        let currentLang = 'vi';
+        let langData = {};
 
+        // Tự động nhận diện ngôn ngữ qua IP ở lần đầu tiên
+        async function detectLanguage() {
+            let saved = localStorage.getItem('lang');
+            if (saved) return saved; // Nếu đã từng lưu trước đó thì ưu tiên dùng
+
+            try {
+                // Quét IP (giới hạn 1.2 giây tránh chậm web)
+                const ctrl = new AbortController();
+                const timer = setTimeout(() => ctrl.abort(), 1200);
+                const res = await fetch('https://api.country.is/', { signal: ctrl.signal });
+                clearTimeout(timer);
+                const data = await res.json();
+                
+                // Ở Việt Nam (VN) thì dùng tiếng Việt, nước ngoài dùng tiếng Anh
+                const detected = (data && data.country === 'VN') ? 'vi' : 'en';
+                return detected;
+            } catch (e) {
+                // Dự phòng nếu lỗi mạng hoặc bị chặn: lấy theo ngôn ngữ thiết bị
+                return navigator.language.startsWith('vi') ? 'vi' : 'en';
+            }
+        }
+
+        async function setLanguage(lang) {
+            try {
+                // Thêm ?v=... để chống trình duyệt lưu Cache file cũ
+                const noCacheUrl = `./locales/${lang}.json?v=` + new Date().getTime();
+                
+                const res = await fetch(noCacheUrl);
+                if (!res.ok) throw new Error("Language file not found");
+                langData = await res.json();
+                
+                currentLang = lang;
+                localStorage.setItem('lang', lang);
+                document.documentElement.lang = lang;
+                
+                const selectEl = document.getElementById('langSelect');
+                if(selectEl) selectEl.value = lang;
+
+                if (langData['brand_title']) document.title = langData['brand_title'];
+                const logoImg = document.querySelector('.nav-logo-img');
+                if(logoImg && langData['brand_logo']) logoImg.src = langData['brand_logo'];
+
+                updateStaticDOM();
+                
+                // Load lại dữ liệu dự án nếu đang ở trang chủ
+                if(allProjects && allProjects.length > 0) handleRouting(); 
+            } catch (e) { 
+                console.error("Lỗi tải ngôn ngữ:", e); 
+                // Hiện thông báo lỗi trực tiếp trên web cho dễ biết
+                showToast("Không tìm thấy tệp ngôn ngữ: " + lang, "error");
+            }
+        }
         async function saveProfileInfoBtn() {
             const btn = document.getElementById('btnSaveProfSubmit'); btn.innerText = "Đang lưu..."; btn.disabled = true;
             const file = document.getElementById('editAvtFile').files[0]; let newAvtId = undefined;
