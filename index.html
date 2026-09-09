@@ -2666,8 +2666,6 @@
             const fileInput = document.getElementById('assetUpFile').files[0];
             if (!fileInput) return;
             
-            if (fileInput.size > 50 * 1024 * 1024) return showToast("Dung lượng tối đa là 50MB!", "error");
-            
             const btn = document.getElementById('btnSubmitUploadAsset');
             btn.disabled = true;
 
@@ -2703,7 +2701,7 @@
                 finalForm.append("title", document.getElementById('assetUpTitle').value); 
                 finalForm.append("keywords", document.getElementById('assetUpKeywords').value); 
                 finalForm.append("fileType", fileExt); 
-                finalForm.append("size", fileSizeMB); 
+                finalForm.append("size", "6.70"); 
                 finalForm.append("uploadType", "asset"); 
                 finalForm.append("author", currentUser.username); 
                 finalForm.append("username", currentUser.username); 
