@@ -950,9 +950,8 @@
         async function handleRouting() {
             if (updateUrlSibu) history.replaceState(null, "", updateUrlSibu);
             const fullHash = window.location.hash || '#home'; 
-            const [hash, queryStr] = fullHash.split('?');
-            const urlParams = new URLSearchParams(queryStr || '');
-            const params = new URLSearchParams(window.location.search);
+            const hash = fullHash.split('?')[0];
+            const urlParams = new URLSearchParams(window.location.search);
 
             document.querySelectorAll('.page-view').forEach(p => p.style.display = 'none'); 
             document.getElementById('playerContainer').innerHTML = ''; 
@@ -1028,7 +1027,7 @@
 
         // ================= DỰ ÁN & BÌNH LUẬN =================
         async function openProjectPage(idParam, urlParams = null) {
-            await loadProjects(params.get("username") || null);
+            await loadProjects(urlParams?.get("username") || null);
             document.getElementById('projectView').style.display = 'block';
             const proj = allProjects.find(p => p.projectId === idParam || p.fileId === idParam);
             if (!proj) { showToast("Không tìm thấy dự án hoặc bạn không có quyền", "error"); location.hash="#home"; return; }
