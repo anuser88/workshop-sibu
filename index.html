@@ -961,9 +961,6 @@
             if (hash.startsWith('#project/')) {
                 await loadProjects(params.get("username") || null);
             }
-            if (hash.startsWith('#profile/')) {
-                await loadProjects(hash.slice(9));
-            }
 
             if (hash.startsWith('#project/')) openProjectPage(hash.replace('#project/', ''), urlParams);
             else if (hash.startsWith('#profile/')) openProfilePage(decodeURIComponent(hash.replace('#profile/', '')), urlParams);
@@ -1258,6 +1255,7 @@
         // ================= PROFILE & SETTINGS =================
         // ================= TRANG PROFILE =================
         async function openProfilePage(username, urlParams = null) {
+            await loadProjects(username)
             document.getElementById('profileView').style.display = 'block';
             viewingProfileUser = username;
             
