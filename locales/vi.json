@@ -133,5 +133,12 @@
   "comment_attached_img": "Đã đính kèm ảnh",
   "comment_login": "Đăng nhập để bình luận",
   "comment_submit": "Gửi bình luận",
-  "comment_attach_image": "Đính kèm ảnh"
+  "comment_attach_image": "Đính kèm ảnh",
+
+  "settings_tab_profile": "Hồ sơ cá nhân",
+  "settings_tab_pref": "Tùy chọn hiển thị",
+  "settings_tab_account": "Tài khoản & Liên kết",
+  "settings_theme": "Giao diện (Theme):",
+  "settings_theme_light": "Sáng",
+  "settings_theme_dark": "Tối"
 }
