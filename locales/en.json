@@ -133,5 +133,12 @@
   "comment_attached_img": "Image attached",
   "comment_login": "Log in to comment",
   "comment_submit": "Post Comment",
-  "comment_attach_image": "Attach Image"
+  "comment_attach_image": "Attach Image",
+
+  "settings_tab_profile": "Profile",
+  "settings_tab_pref": "Display Preferences",
+  "settings_tab_account": "Account & Linked Accounts",
+  "settings_theme": "Theme:",
+  "settings_theme_light": "Light",
+  "settings_theme_dark": "Dark"
 }
