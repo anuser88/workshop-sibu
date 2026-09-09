@@ -950,12 +950,19 @@
             const fullHash = window.location.hash || '#home'; 
             const [hash, queryStr] = fullHash.split('?');
             const urlParams = new URLSearchParams(queryStr || '');
+            const params = new URLSearchParams(window.location.search);
 
             document.querySelectorAll('.page-view').forEach(p => p.style.display = 'none'); 
             document.getElementById('playerContainer').innerHTML = ''; 
             
-            if (hash === '#home' || hash === '' || hash.startsWith('#project/') || hash.startsWith('#profile/')) {
+            if (hash === '#home' || hash === '') {
                 await loadProjects(); 
+            }
+            if (hash.startsWith('#project/')) {
+                await loadProjects(params.get("username") || null);
+            }
+            if (hash.startsWith('#profile/')) {
+                await loadProjects(hash.slice(9));
             }
 
             if (hash.startsWith('#project/')) openProjectPage(hash.replace('#project/', ''), urlParams);
@@ -988,12 +995,26 @@
             } else { nav.innerHTML = `<button class="btn btn-primary" onclick="openModal('loginModal')"><i class="fa-solid fa-user"></i> ${t('nav_login')}</button>`; }
         }
 
-        async function loadProjects() { try { const res = await (await fetch(`${WORKER_URL}/api/projects?username=${encodeURIComponent(currentUser?currentUser.username:'')}`)).json(); if(!res.error) allProjects = res; } catch(e){} }
+        async function loadProjects(username = null) {
+            username = username || currentUser?currentUser.username:'';
+            try {
+                const res = await (await fetch(`${WORKER_URL}/api/projects?username=${encodeURIComponent(username)}`)).json();
+                if(!res.error) allProjects = res;
+            }
+            catch(e) {}
+        }
+
+        function openPrj(id = "1001", username = null) {
+            username = username || currentUser?currentUser.username:'';
+            const params = new URLSearchParams(window.location.search);
+            params.set("username", username);
+            location.hash=`#project/${id}`;
+        }
         
         function openHomePage() {
             document.getElementById('homeView').style.display = 'block';
             document.getElementById('projectList').innerHTML = allProjects.map(p => `
-                <div class="card" onclick="location.hash='#project/${p.projectId || p.fileId}'">
+                <div class="card" onclick="openPrj('${p.projectId || p.fileId}')">
                     ${p.visibility === 'private' ? `<div class="badge-private"><i class="fa-solid fa-lock"></i> ${t('badge_private')}</div>` : ''}
                     <div class="card-thumb">${p.thumbId ? `<img src="${WORKER_URL}/api/project/${p.thumbId}">` : `<i class="fa-solid fa-image" style="font-size:3rem; color:#ccc;"></i>`}</div>
                     <div class="card-body">
@@ -1322,7 +1343,7 @@
             const projListEl = document.getElementById('userProjectList');
             if(projListEl) {
                 projListEl.innerHTML = userProjs.length ? userProjs.map(p => `
-                    <div class="card" onclick="location.hash='#project/${p.projectId || p.fileId}'">
+                    <div class="card" onclick="openPrj('${p.projectId || p.fileId}', '${username}')">
                         ${p.visibility === 'private' ? `<div class="badge-private"><i class="fa-solid fa-lock"></i> ${t('badge_private')}</div>` : ''}
                         <div class="card-thumb">${p.thumbId ? `<img src="${WORKER_URL}/api/project/${p.thumbId}">` : `<i class="fa-solid fa-image" style="font-size:2rem; color:#ccc;"></i>`}</div>
                         <div class="card-body"><div class="card-title">${escapeHtml(p.title)}</div><div class="card-author">${t('author_by', { author: escapeHtml(p.author) })}</div></div>
@@ -1334,7 +1355,7 @@
             const likedListEl = document.getElementById('userLikedList');
             if(likedListEl) {
                 likedListEl.innerHTML = likedProjs.length ? likedProjs.map(p => `
-                    <div class="card" onclick="location.hash='#project/${p.projectId || p.fileId}'">
+                    <div class="card" onclick="openPrj('${p.projectId || p.fileId}', '${username}')">
                         <div class="card-thumb">${p.thumbId ? `<img src="${WORKER_URL}/api/project/${p.thumbId}">` : `<i class="fa-solid fa-image" style="font-size:2rem; color:#ccc;"></i>`}</div>
                         <div class="card-body"><div class="card-title">${escapeHtml(p.title)}</div><div class="card-author">${t('author_by', { author: escapeHtml(p.author) })}</div></div>
                     </div>
