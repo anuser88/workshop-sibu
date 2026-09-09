@@ -1063,7 +1063,13 @@
                 currentProj[`${type}s`] = list; updateActionBtns();
             }
         }
-
+        function t(key, params = {}) {
+            let str = langData[key] || key;
+            for (const [k, v] of Object.entries(params)) {
+                str = str.replace(new RegExp(`{${k}}`, 'g'), v);
+            }
+            return str;
+        }
         // BỐ CỤC COMMENT ĐÃ ĐƯỢC SỬA LỖI (CHIA KHỐI HEADER TRÊN, TEXT BUBBLE DƯỚI)
         function renderCommentList(type, list) {
             const container = document.getElementById(type === 'proj' ? 'commentListProj' : 'profCommentList');
